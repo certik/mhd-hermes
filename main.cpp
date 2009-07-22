@@ -1,5 +1,9 @@
+#include <stdio.h>
+#include <stdexcept>
+
 #include "hermes2d.h"
 #include "solver_umfpack.h"
+#include "_hermes2d_api.h"
 
 // The time-dependent laminar incompressible Navier-Stokes equations are
 // discretized in time via the implicit Euler method. The convective term
@@ -192,6 +196,13 @@ int main(int argc, char* argv[])
     psln.set_zero(&mesh);
     sys.assemble();
     sys.solve(3, &xsln, &ysln, &psln);
+    /*
+    Py_Initialize();
+    PySys_SetArgv(argc, argv);
+    if (import_hermes2d___hermes2d())
+        throw std::runtime_error("hermes2d failed to import.");
+    set_trace(5);
+    */
 
     // visualization
     sprintf(title, "Velocity, time %g", TIME);
