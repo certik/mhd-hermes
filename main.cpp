@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdexcept>
 
+#include "dummy_solver.h"
 #include "hermes2d.h"
-#include "solver_umfpack.h"
 #include "_hermes2d_api.h"
 
 // The time-dependent laminar incompressible Navier-Stokes equations are
@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
   pview.fix_scale_width(5);
 
   // set up the linear system
-  UmfpackSolver umfpack;
+  DummySolver umfpack;
   LinSystem sys(&wf, &umfpack);
   sys.set_spaces(3, &xvel, &yvel, &press);
   sys.set_pss(3, &pss_h1, &pss_h1, &pss_l2);
