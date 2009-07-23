@@ -195,14 +195,46 @@ int main(int argc, char* argv[])
     Solution xsln, ysln, psln;
     psln.set_zero(&mesh);
     sys.assemble();
-    sys.solve(3, &xsln, &ysln, &psln);
-    /*
+    //sys.solve(3, &xsln, &ysln, &psln);
+
+    int *Ap, *Ai, n, nnz;
+    scalar *Ax;
+    sys.get_matrix(Ap, Ai, Ax, n);
+    nnz = Ap[n];
+    scalar *rhs;
+    sys.get_rhs(rhs, n);
     Py_Initialize();
     PySys_SetArgv(argc, argv);
     if (import_hermes2d___hermes2d())
         throw std::runtime_error("hermes2d failed to import.");
-    set_trace(5);
+    insert_int_array("Ap", Ap, n+1);
+    insert_int_array("Ai", Ai, nnz);
+    insert_double_array("Ax", Ax, nnz);
+    insert_double_array("rhs", rhs, n);
+    cmd("from scipy.sparse import csc_matrix");
+    cmd("A = csc_matrix((Ax, Ai, Ap))");
+    cmd("from scipy.sparse.linalg.dsolve import spsolve");
+    cmd("from scipy.sparse.linalg import cg");
+    cmd("x = spsolve(A, rhs)");
+    //cmd("print x");
+    //cmd("from numpy import array");
+    //cmd("x = array([[1, 2, 3], [2, 3, 6]])");
+    PyObject *x;
+    x = get_symbol("x");
+    double *X;
+    array_double_numpy2c_inplace(x, &X, &n);
+    xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), X);
+    ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), X);
+    psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), X);
+
+    /*
+    cmd("import IPython");
+    cmd("IPython.ipapi.set_trace()");
     */
+    /*cmd("import pylab");
+    cmd("pylab.plot(A)");
+    cmd("pylab.show()");*/
+    //throw std::runtime_error("exit\n xxxx \n xxx");
 
     // visualization
     sprintf(title, "Velocity, time %g", TIME);
