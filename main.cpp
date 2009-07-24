@@ -182,6 +182,12 @@ int main(int argc, char* argv[])
   if (import_hermes2d___hermes2d())
       throw std::runtime_error("hermes2d failed to import.");
 
+  cmd("from hermes2d import Linearizer");
+  cmd("import utils");
+  cmd("from scipy.sparse import csc_matrix");
+  cmd("from scipy.sparse.linalg.dsolve import spsolve");
+  cmd("from scipy.sparse.linalg import cg");
+
   // main loop
   char title[100];
   int num_time_steps = FINAL_TIME / TAU;
@@ -213,28 +219,33 @@ int main(int argc, char* argv[])
     insert_int_array("Ai", Ai, nnz);
     insert_double_array("Ax", Ax, nnz);
     insert_double_array("rhs", rhs, n);
-    cmd("from scipy.sparse import csc_matrix");
     cmd("A = csc_matrix((Ax, Ai, Ap))");
-    cmd("from scipy.sparse.linalg.dsolve import spsolve");
-    cmd("from scipy.sparse.linalg import cg");
     cmd("x = spsolve(A, rhs)");
     double *X;
     array_double_numpy2c_inplace(get_symbol("x"), &X, &n);
     xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), X);
     ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), X);
     psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), X);
+    insert_object("psln", Solution_from_C(&psln));
+    cmd("l = Linearizer()");
+    cmd("l.process_solution(psln)");
+    cmd("vert = l.get_vertices()");
+    cmd("triangles = l.get_triangles()");
+    cmd("utils.plot(vert, triangles)");
+
+    //cmd("import IPython; IPython.ipapi.set_trace()");
 
     // visualization
     sprintf(title, "Velocity, time %g", TIME);
     vview.set_title(title);
-    vview.show(&xprev, &yprev, EPS_LOW);
+    //vview.show(&xprev, &yprev, EPS_LOW);
     sprintf(title, "Pressure, time %g", TIME);
     pview.set_title(title);
-    pview.show(&psln);
+    //pview.show(&psln);
 
     xprev = xsln;
     yprev = ysln;
   }
 
-  View::wait();
+  //View::wait();
 }
