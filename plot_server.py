@@ -85,5 +85,7 @@ while 1:
     while evtloop.Pending():
         evtloop.Dispatch()
         app.ProcessIdle()
+        gui_lock.release()
+        gui_lock.acquire()
     gui_lock.release()
     sleep(0.001)
