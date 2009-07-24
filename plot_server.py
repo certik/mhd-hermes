@@ -1,3 +1,4 @@
+print "Initializing..."
 import cPickle
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 from numpy import zeros
