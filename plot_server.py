@@ -52,8 +52,12 @@ def plot(vert, triangles):
             #import IPython
             #IPython.ipapi.set_trace()
             # delete the old plot:
-            mlab.get_engine().scenes[0].children[:1] = []
+            #scene = #mlab.get_engine().scenes[0]
+            scene = mlab.gcf().scene
+            scene.disable_render = True
             s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
+            mlab.get_engine().scenes[0].children[:1] = []
+            scene.disable_render = False
             print "  done."
         iter += 1
     gui_lock.acquire()
