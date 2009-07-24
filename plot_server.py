@@ -7,7 +7,36 @@ from time import sleep
 import wx
 from numpy import zeros
 from enthought.mayavi import mlab
+from enthought.mayavi.tools import tools
+from enthought.mayavi.tools.helper_functions import Mesh, document_pipeline
+from enthought.mayavi.tools.sources import MTriangularMeshSource
+from enthought.traits.api import Callable
 from enthought.pyface.api import GUI
+
+data_source = None
+
+def triangular_mesh_source(x, y, z, triangles, **kwargs):
+    #x, y, z, triangles = convert_to_arrays((x, y, z, triangles))
+
+    scalars = kwargs.pop('scalars', None)
+    if scalars is None:
+        scalars = z
+
+    global data_source
+    data_source = MTriangularMeshSource()
+    data_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=scalars)
+
+    name = kwargs.pop('name', 'TriangularMeshSource')
+    ds = tools.add_dataset(data_source.dataset, name, **kwargs)
+    data_source.m_data = ds
+    return ds
+
+class TriangularMesh(Mesh):
+    _source_function = Callable(triangular_mesh_source)
+
+triangular_mesh = document_pipeline(TriangularMesh())
+
+
 
 gui_lock = Lock()
 
@@ -39,7 +68,7 @@ def plot(vert, triangles):
         global iter
         if iter == 0:
             print "plotting the triangular mesh..."
-            s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
+            s = triangular_mesh(x, y, z, triangles, scalars=t)
             #s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
             print "  done."
             print "adjusting view..."
@@ -48,7 +77,13 @@ def plot(vert, triangles):
         else:
             print "changing the source..."
             # produces some messy result, I don't know why:
+            #import IPython
+            #IPython.ipapi.set_trace()
+
+            # XXX: this segfaults:
             s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
+            # NOTES:
+            # data_source above is equal to s.mlab_source
             # so let's call triangular_mesh again:
             #import IPython
             #IPython.ipapi.set_trace()
