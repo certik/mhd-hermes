@@ -11,6 +11,9 @@ from enthought.pyface.api import GUI
 
 gui_lock = Lock()
 
+iter = 0
+s = None
+
 def plot(vert, triangles):
     """
     Makes a mayavi plot.
@@ -32,12 +35,27 @@ def plot(vert, triangles):
     t = vert[:, 2]
     print "  done."
     def doit():
-        print "plotting the triangular mesh..."
-        s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
-        print "  done."
-        print "adjusting view..."
-        mlab.view(0, 0)
-        print "  done."
+        global s
+        global iter
+        if iter == 0:
+            print "plotting the triangular mesh..."
+            s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
+            print "  done."
+            print "adjusting view..."
+            mlab.view(0, 0)
+            print "  done."
+        else:
+            print "changing the source..."
+            # produces some messy result, I don't know why:
+            #s.mlab_source.reset(x=x, y=y, z=z, scalars=t)
+            # so let's call triangular_mesh again:
+            #import IPython
+            #IPython.ipapi.set_trace()
+            # delete the old plot:
+            mlab.get_engine().scenes[0].children[:1] = []
+            s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
+            print "  done."
+        iter += 1
     gui_lock.acquire()
     doit()
     gui_lock.release()
