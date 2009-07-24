@@ -40,6 +40,7 @@ def plot(vert, triangles):
         if iter == 0:
             print "plotting the triangular mesh..."
             s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
+            #s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
             print "  done."
             print "adjusting view..."
             mlab.view(0, 0)
@@ -47,17 +48,18 @@ def plot(vert, triangles):
         else:
             print "changing the source..."
             # produces some messy result, I don't know why:
-            #s.mlab_source.reset(x=x, y=y, z=z, scalars=t)
+            s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
             # so let's call triangular_mesh again:
             #import IPython
             #IPython.ipapi.set_trace()
             # delete the old plot:
             #scene = #mlab.get_engine().scenes[0]
-            scene = mlab.gcf().scene
-            scene.disable_render = True
-            s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
-            mlab.get_engine().scenes[0].children[:1] = []
-            scene.disable_render = False
+            #scene = mlab.gcf().scene
+            #scene.disable_render = True
+            #s = mlab.triangular_mesh(x, y, z, triangles, scalars=t,
+            #        representation="surface")
+            #mlab.get_engine().scenes[0].children[:1] = []
+            #scene.disable_render = False
             print "  done."
         iter += 1
     gui_lock.acquire()
