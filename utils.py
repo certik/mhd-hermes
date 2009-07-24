@@ -1,11 +1,11 @@
+import xmlrpclib
+import cPickle
+
+s = xmlrpclib.ServerProxy("http://localhost:8000/", allow_none=True)
+
 def plot(vert, triangles):
     print "plotting using mayavi..."
-    from numpy import zeros
-    from enthought.mayavi import mlab
-    x = vert[:, 0]
-    y = vert[:, 1]
-    z = zeros(len(y))
-    t = vert[:, 2]
-    s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
-    mlab.view(0, 0)
+    v = cPickle.dumps(vert)
+    t = cPickle.dumps(triangles)
+    s.plot(v, t)
     print "   done."
