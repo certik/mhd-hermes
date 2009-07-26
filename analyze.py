@@ -25,8 +25,8 @@ print triangles
 print triangles2
 print len(triangles)
 print len(triangles2)
-# XXX: this works, but 2643 segfaults
-triangles = triangles2[:2642]
+# XXX: this fails, but 2642 works
+triangles = triangles2[:2643]
 #print t
 s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
 mlab.show()
