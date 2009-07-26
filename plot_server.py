@@ -13,6 +13,8 @@ from enthought.mayavi.tools.sources import MTriangularMeshSource
 from enthought.traits.api import Callable
 from enthought.pyface.api import GUI
 
+from cPickle import dump
+
 data_source = None
 
 def triangular_mesh_source(x, y, z, triangles, **kwargs):
@@ -43,6 +45,8 @@ gui_lock = Lock()
 iter = 0
 s = None
 
+#f = open("log", "w")
+
 def plot(vert, triangles):
     """
     Makes a mayavi plot.
@@ -63,6 +67,11 @@ def plot(vert, triangles):
     z = zeros(len(y))
     t = vert[:, 2]
     print "  done."
+    dump(x, f)
+    dump(y, f)
+    dump(z, f)
+    dump(triangles, f)
+    dump(t, f)
     def doit():
         global s
         global iter
