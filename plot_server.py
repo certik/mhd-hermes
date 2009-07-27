@@ -62,12 +62,16 @@ def plot(vert, triangles):
     doit()
     gui_lock.release()
 
+def alive():
+    return True
+
 class Server(Thread):
 
     def run(self):
         server = SimpleXMLRPCServer(("localhost", 8000), allow_none=True)
         server.register_introspection_functions()
         server.register_function(plot)
+        server.register_function(alive)
         print "Listening on port 8000..."
         server.serve_forever()
 
