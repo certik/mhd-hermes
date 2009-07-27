@@ -46,13 +46,11 @@ def plot(vert, triangles):
             print "  done."
         else:
             print "changing the source..."
-            # produces some messy result, I don't know why:
-            #s.mlab_source.reset(x=x, y=y, z=z, scalars=t)
-            # so let's call triangular_mesh again:
-            #import IPython
-            #IPython.ipapi.set_trace()
-            # delete the old plot:
-            #scene = #mlab.get_engine().scenes[0]
+            # This doesn't work due to a bug in mayavi/VTK:
+            # http://github.com/certik/mhd-hermes/issues#issue/1
+            #s.mlab_source.reset(x=x, y=y, z=z, triangles=triangles, scalars=t)
+            # so until this is fixed, let's call triangular_mesh and delete the
+            # old mesh (this is slow but works):
             scene = mlab.gcf().scene
             scene.disable_render = True
             s = mlab.triangular_mesh(x, y, z, triangles, scalars=t)
