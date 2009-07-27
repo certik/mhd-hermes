@@ -31,6 +31,8 @@ def plot_server_alive():
 
 def establish_connection():
     global s
+    if s is not None:
+        return
     s = xmlrpclib.ServerProxy("http://localhost:8000/", allow_none=True)
     if not plot_server_alive():
         start_plot_server()
@@ -40,10 +42,10 @@ def establish_connection():
         print "  done."
 
 def plot(vert, triangles):
+    establish_connection()
     print "plotting using mayavi..."
     v = cPickle.dumps(vert)
     t = cPickle.dumps(triangles)
     s.plot(v, t)
     print "   done."
 
-establish_connection()
