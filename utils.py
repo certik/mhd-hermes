@@ -2,6 +2,8 @@ import xmlrpclib
 import cPickle
 import subprocess
 from time import sleep
+import visit_writer
+from numpy import zeros
 
 p = None
 s = None
@@ -41,7 +43,7 @@ def establish_connection():
             sleep(0.05)
         print "  done."
 
-def plot(vert, triangles):
+def plot_on_server(vert, triangles):
     establish_connection()
     print "plotting using mayavi..."
     v = cPickle.dumps(vert)
@@ -49,3 +51,23 @@ def plot(vert, triangles):
     s.plot(v, t)
     print "   done."
 
+def plot(vert, triangles):
+    save_vtk(vert, triangles)
+
+iter = 0
+def save_vtk(vert, triangles):
+    global iter
+    node_scalars = vert[:, 2]
+    node_scalars = tuple(node_scalars)
+    pts = vert.copy()
+    pts[:, 2] = zeros(vert.shape[0])
+    pts = pts.reshape((vert.shape[0]*vert.shape[1], ))
+    pts = tuple(pts)
+    connectivity = []
+    for t in triangles:
+        connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
+            int(t[2])))
+    vars = (("nodal", 1, 1, node_scalars), )
+    visit_writer.WriteUnstructuredMesh("frame%04d.vtk" % iter, 1, pts,
+            connectivity, vars)
+    iter += 1
