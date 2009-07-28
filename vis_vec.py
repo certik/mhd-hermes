@@ -15,4 +15,10 @@ engine.add_filter(extract_vector_norm, obj=None)
 surface = Surface()
 engine.add_module(surface, obj=None)
 
+# show 3D model of the vector norms:
+#warp_scalar = WarpScalar()
+#engine.add_filter(warp_scalar, obj=None)
+#surface1 = Surface()
+#engine.add_filter(surface1, warp_scalar)
+
 mlab.show()
