@@ -1,0 +1,7 @@
+MHD simulation software
+-----------------------
+
+MHD-hermes is a magnetohydrodynamics simluation software written in C++ and
+Python, using the Hermes hp-FEM library.
+
+Webpage: http://github.com/certik/mhd-hermes
