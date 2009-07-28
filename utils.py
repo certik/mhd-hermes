@@ -55,9 +55,7 @@ def plot(vert, triangles):
     save_vtk(vert, triangles)
 
 def plot_vec(vert, triangles):
-    print vert
-    print triangles
-    #save_vtk(vert, triangles)
+    save_vtk_vec(vert, triangles)
 
 iter = 0
 def save_vtk(vert, triangles):
@@ -76,3 +74,21 @@ def save_vtk(vert, triangles):
     visit_writer.WriteUnstructuredMesh("frame%04d.vtk" % iter, 1, pts,
             connectivity, vars)
     iter += 1
+
+def save_vtk_vec(vert, triangles):
+    global iter
+    node_scalars_x = tuple(vert[:, 2])
+    node_scalars_y = tuple(vert[:, 3])
+    pts = vert.copy()
+    pts[:, 2] = zeros(vert.shape[0])
+    pts = pts[:, :3]
+    pts = pts.reshape((vert.shape[0]*3, ))
+    pts = tuple(pts)
+    connectivity = []
+    for t in triangles:
+        connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
+            int(t[2])))
+    vars = (("v_x", 1, 1, node_scalars_x),
+        ("v_y", 1, 1, node_scalars_y), )
+    visit_writer.WriteUnstructuredMesh("frame_vec%04d.vtk" % iter, 1, pts,
+            connectivity, vars)
