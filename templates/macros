@@ -13,4 +13,5 @@ playlist: [
 { url: "{{ video_file }}", autoPlay: false}
 ]
            });
+</script>
 {%- endmacro %}
