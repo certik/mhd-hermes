@@ -182,7 +182,7 @@ int main(int argc, char* argv[])
   if (import_hermes2d___hermes2d())
       throw std::runtime_error("hermes2d failed to import.");
 
-  cmd("from hermes2d import Linearizer");
+  cmd("from hermes2d import Linearizer, Vectorizer");
   cmd("import utils");
   cmd("from scipy.sparse import csc_matrix");
   cmd("from scipy.sparse.linalg.dsolve import spsolve");
@@ -226,12 +226,20 @@ int main(int argc, char* argv[])
     xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), X);
     ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), X);
     psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), X);
+    insert_object("xsln", Solution_from_C(&xsln));
+    insert_object("ysln", Solution_from_C(&ysln));
     insert_object("psln", Solution_from_C(&psln));
     cmd("l = Linearizer()");
     cmd("l.process_solution(psln)");
     cmd("vert = l.get_vertices()");
     cmd("triangles = l.get_triangles()");
     cmd("utils.plot(vert, triangles)");
+
+    cmd("v = Vectorizer()");
+    cmd("v.process_solution(xsln, ysln)");
+    cmd("v_vert = v.get_vertices()");
+    cmd("v_triangles = v.get_triangles()");
+    cmd("utils.plot_vec(v_vert, v_triangles)");
 
     //cmd("import IPython; IPython.ipapi.set_trace()");
 

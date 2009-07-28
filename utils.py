@@ -54,6 +54,11 @@ def plot_on_server(vert, triangles):
 def plot(vert, triangles):
     save_vtk(vert, triangles)
 
+def plot_vec(vert, triangles):
+    print vert
+    print triangles
+    #save_vtk(vert, triangles)
+
 iter = 0
 def save_vtk(vert, triangles):
     global iter
