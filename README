@@ -5,3 +5,13 @@ MHD-hermes is a magnetohydrodynamics simluation software written in C++ and
 Python, using the Hermes hp-FEM library.
 
 Webpage: http://certik.github.com/mhd-hermes
+
+Installation
+------------
+
+Install hermes2d, so that you can import "hermes2d" from Python. Then just run:
+
+cmake .
+make
+
+and that's it.
