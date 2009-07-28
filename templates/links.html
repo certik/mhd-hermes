@@ -1,0 +1,45 @@
+{% from "macros" import video %}
+{% extends "base.html" %}
+
+{% block title %}Links to related software{% endblock %}
+
+{% block sidebar %}
+
+<div class="block">
+  <h3>Python</h3>
+  <div class="content">
+    <p>
+The most important ingredient is <a href="http://python.org">Python</a> and
+all the libraries for it.
+    </p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<h2 class="title">Links to related software</h2>
+<div class="inner">
+<p class="first">
+<a href="http://femhub.org/">Femhub</a>: The Femhub distribution
+</p>
+<p>
+<a href="http://hpfem.org/">hpfem</a>: The hp-FEM software developed at the
+University of Nevada, Reno.
+</p>
+<p>
+<a href="http://code.enthought.com/projects/mayavi/">MayaVi</a>: Mayavi was
+used for all the visualisation
+</p>
+<p>
+<a href="http://cython.org/">Cython</a>: Cython was used for interfacing Python
+and C++ (e.g. calling C++ from Python and vice versa).
+</p>
+<p>
+<a href="http://certik.github.com/visit_writer">Visit writer</a>: Visit writer
+was used to generate all vtk files easily from Python.
+</p>
+</div>
+
+{% endblock %}

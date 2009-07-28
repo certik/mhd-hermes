@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>MHD Videos</title>
+    <title>Links to related software</title>
     <link rel="stylesheet" href="media/base.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="current-theme" href="media/style.css" type="text/css" media="screen" />
 </head>
@@ -16,8 +16,8 @@
         
         <ul>
             <li class=" first"><a href="index.html">Main Page</a></li>
-            <li class="active"><a href="videos.html">Videos</a></li>
-            <li class=""><a href="links.html">Links</a></li>
+            <li class=""><a href="videos.html">Videos</a></li>
+            <li class="active"><a href="links.html">Links</a></li>
         </ul>
         
         <div class="clear"></div>
@@ -29,23 +29,26 @@
             <div class="content">
                 
 
-<h2 class="title">Videos</h2>
+<h2 class="title">Links to related software</h2>
 <div class="inner">
 <p class="first">
-Below is a list of all videos created using <code>mhd-hermes</code> program.
+<a href="http://femhub.org/">Femhub</a>: The Femhub distribution
 </p>
 <p>
-<a href="http://cloud.github.com/downloads/certik/mhd-hermes/video.flv" style="display:block;width:640px;height:504px" id="player"> </a>
-<script src="http://femhub.googlecode.com/svn/trunk/swf/flowplayer-3.1.1.min.js" type="text/javascript"> </script>
-
-<script type="text/javascript">
-flowplayer("player",
-"http://femhub.googlecode.com/svn/trunk/swf/flowplayer-3.1.1.swf",
-{ playlist: [
-    { url: "http://cloud.github.com/downloads/certik/mhd-hermes/video.png", autoPlay: true},
-    { url: "http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", autoPlay: false}
-] });
-</script>
+<a href="http://hpfem.org/">hpfem</a>: The hp-FEM software developed at the
+University of Nevada, Reno.
+</p>
+<p>
+<a href="http://code.enthought.com/projects/mayavi/">MayaVi</a>: Mayavi was
+used for all the visualisation
+</p>
+<p>
+<a href="http://cython.org/">Cython</a>: Cython was used for interfacing Python
+and C++ (e.g. calling C++ from Python and vice versa).
+</p>
+<p>
+<a href="http://certik.github.com/visit_writer">Visit writer</a>: Visit writer
+was used to generate all vtk files easily from Python.
 </p>
 </div>
 
@@ -62,15 +65,11 @@ flowplayer("player",
         
 
 <div class="block">
-  <h3>How the videos were created</h3>
+  <h3>Python</h3>
   <div class="content">
     <p>
-The mhd-hermes program generated a set of *.vtk files. They were converted to
-*.png files using mayavi and the video was created using:
-<pre>
-ffmpeg -b 3600k -i output/frame%04d.png \
-  -r 15 video.flv
-</pre>
+The most important ingredient is <a href="http://python.org">Python</a> and
+all the libraries for it.
     </p>
   </div>
 </div>
