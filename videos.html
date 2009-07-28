@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Repositories main page</title>
+    <title>MHD Videos</title>
     <link rel="stylesheet" href="media/base.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="current-theme" href="media/style.css" type="text/css" media="screen" />
 </head>
@@ -15,8 +15,8 @@
       <div id="main-navigation">
         
         <ul>
-            <li class="active first"><a href="/">Main Page</a></li>
-            <li class=""><a href="videos.html">Videos</a></li>
+            <li class=" first"><a href="/">Main Page</a></li>
+            <li class="active"><a href="videos.html">Videos</a></li>
             <li class=""><a href="/hooks/users/">Users</a></li>
         </ul>
         
@@ -29,24 +29,12 @@
             <div class="content">
                 
 
-<h2 class="title">About</h2>
+<h2 class="title">Videos</h2>
 <div class="inner">
 <p class="first">
-This is a web application that provides an alternative interface to the
-repositories hosted at <a href="http://github.com/">GitHub</a>.</p>
-<p>
-It uses the GitHub <a href="http://develop.github.com/">web API</a> to access
-information about the repositories and then caches it in the database
-(everything runs on the
-<a href="http://code.google.com/appengine/">Google App Engine</a>), so it's
-very fast.
+Below is a list of all videos created using <code>mhd-hermes</code> program.
 </p>
 <p>
-This application is opensource (BSD licensed), source code is at
-<a href="http://github.com/certik/webhooks">http://github.com/certik/webhooks</a>
-</p>
-<p>
-If you are new to git, watch this short video introduction:<br/>
 <a href="http://cloud.github.com/downloads/certik/mhd-hermes/video.flv" style="display:block;width:640px;height:504px" id="player"> </a>
 <script src="http://femhub.googlecode.com/svn/trunk/swf/flowplayer-3.1.1.min.js" type="text/javascript"> </script>
 
@@ -74,38 +62,16 @@ flowplayer("player",
         
 
 <div class="block">
-  <h3>How to add a repository and users</h3>
+  <h3>How the videos were created</h3>
   <div class="content">
     <p>
-    To add a new repository, set up a post-receive hook on your repository (use
-the url of this page) as explained in the <a
-href="http://github.com/guides/post-receive-hooks">Post-Receive Guide</a> at
-GitHub. That's the best way, because we will be kept updated about all changes
-to the repository.
-
-    Once we receive a hook, the corresponding repository and users will be
-automatically created.
+The mhd-hermes program generated a set of *.vtk files. They were converted to
+*.png files using mayavi and the video was created using:
+<pre>
+ffmpeg -b 3600k -i output/frame%04d.png \
+  -r 15 video.flv
+</pre>
     </p>
-    <p>
-    Another option is to create the repository manually on the
-    <a href="/hooks/repos/">repositories list</a>
-    page.
-    </p>
-  </div>
-</div>
-
-<div class="block">
-  <h3>Logo</h3>
-  <div class="content">
-<div class="callout">
-<a href="http://repos.sympy.org/"><img src="/media/repo.png" border=0></a>
-    <p>
-    This is an example of a history of the git project, whose repository can be
-    browsed online <a href="http://github.com/git/git">here</a>.
-    </p>
-</div>
-<br/>
-<br/>
   </div>
 </div>
 

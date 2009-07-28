@@ -6,7 +6,7 @@ from django.utils.encoding import smart_str
 from jinja2 import Environment, FileSystemLoader
 env = Environment(loader=FileSystemLoader('templates'))
 
-templates = ["index.html"]
+templates = ["index.html", "videos.html"]
 
 for template in templates:
     t = env.get_template(template)
