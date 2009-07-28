@@ -22,11 +22,11 @@ engine.add_module(surface, obj=None)
 #surface1 = Surface()
 #engine.add_filter(surface1, warp_scalar)
 
-x, y, z = numpy.mgrid[0:16, 0:6, 0.1:1]
-r = numpy.sqrt(x**2 + y**2 + z**4)
-u = y*numpy.sin(r)/(r+0.001)
-v = -x*numpy.sin(r)/(r+0.001)
+x, y, z = numpy.mgrid[0:15.1:0.5, 0:5.1:0.5, 0.1:1]
+
+u = numpy.sin(x)
+v = numpy.sin(y)
 w = numpy.zeros_like(z)
-mlab.quiver3d(x, y, z, u, v, w, line_width=3, scale_factor=1)
+mlab.quiver3d(x, y, z, u, v, w, line_width=1, scale_factor=1, color=(0, 0, 0))
 
 mlab.show()
