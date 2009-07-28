@@ -1,0 +1,10 @@
+#! /usr/bin/env python
+
+from jinja2 import Environment, FileSystemLoader
+env = Environment(loader=FileSystemLoader('templates'))
+
+templates = ["index.html"]
+
+for template in templates:
+    t = env.get_template(template)
+    open(template, "w").write(t.render())
