@@ -1,5 +1,8 @@
 #! /usr/bin/env python
 
+import os
+
+from django.utils.encoding import smart_str
 from jinja2 import Environment, FileSystemLoader
 env = Environment(loader=FileSystemLoader('templates'))
 
@@ -7,4 +10,7 @@ templates = ["index.html"]
 
 for template in templates:
     t = env.get_template(template)
-    open(template, "w").write(t.render())
+    name = os.path.splitext(template)[0]
+    s = t.render({name + "_active": "active"})
+    s = smart_str(s)
+    open(template, "w").write(s)
