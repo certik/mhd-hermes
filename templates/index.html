@@ -1,43 +1,27 @@
 {% from "macros" import video %}
 {% extends "base.html" %}
 
-{% block title %}Repositories main page{% endblock %}
+{% block title %}MHD{% endblock %}
 
 {% block sidebar %}
 
 <div class="block">
-  <h3>How to add a repository and users</h3>
+  <h3>Download</h3>
   <div class="content">
-    <p>
-    To add a new repository, set up a post-receive hook on your repository (use
-the url of this page) as explained in the <a
-href="http://github.com/guides/post-receive-hooks">Post-Receive Guide</a> at
-GitHub. That's the best way, because we will be kept updated about all changes
-to the repository.
-
-    Once we receive a hook, the corresponding repository and users will be
-automatically created.
-    </p>
-    <p>
-    Another option is to create the repository manually on the
-    <a href="/hooks/repos/">repositories list</a>
-    page.
-    </p>
-  </div>
-</div>
-
-<div class="block">
-  <h3>Logo</h3>
-  <div class="content">
-<div class="callout">
-<a href="http://repos.sympy.org/"><img src="/media/repo.png" border=0></a>
-    <p>
-    This is an example of a history of the git project, whose repository can be
-    browsed online <a href="http://github.com/git/git">here</a>.
-    </p>
-</div>
-<br/>
-<br/>
+<p>
+This project is opensource (BSD licensed), source code is available at
+<a href="http://github.com/certik/mhd-hermes">http://github.com/certik/mhd-hermes</a>
+</p>
+<p>
+You can download it in either
+<a href="http://github.com/certik/mhd-hermes/zipball/master">zip</a> or
+<a href="http://github.com/certik/mhd-hermes/tarball/master">tar</a> formats.
+</p>
+<p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+by running:
+<pre>$ git clone \
+  git://github.com/certik/mhd-hermes</pre>
+</p>
   </div>
 </div>
 
@@ -48,23 +32,31 @@ automatically created.
 <h2 class="title">About</h2>
 <div class="inner">
 <p class="first">
-This is a web application that provides an alternative interface to the
-repositories hosted at <a href="http://github.com/">GitHub</a>.</p>
-<p>
-It uses the GitHub <a href="http://develop.github.com/">web API</a> to access
-information about the repositories and then caches it in the database
-(everything runs on the
-<a href="http://code.google.com/appengine/">Google App Engine</a>), so it's
-very fast.
-</p>
-<p>
-This application is opensource (BSD licensed), source code is at
-<a href="http://github.com/certik/webhooks">http://github.com/certik/webhooks</a>
+<code>MHD-Hermes</code> is a magnetohydrodynamics simluation software written
+in C++ and Python, using the <a href="http://hpfem.org/">Hermes</a> hp-FEM
+library.
 </p>
 <p>
 If you are new to git, watch this short video introduction:<br/>
 {{ video("http://cloud.github.com/downloads/certik/mhd-hermes/video.png",
-"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 640, 504) }}
+"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 320, 264) }}
+</p>
+</div>
+
+<h2 class="title">Download</h2>
+<div class="inner">
+<p class="first">
+This project is opensource (BSD licensed), source code is available at
+<a href="http://github.com/certik/mhd-hermes">http://github.com/certik/mhd-hermes</a>
+</p>
+<p>
+You can download it in either
+<a href="http://github.com/certik/mhd-hermes/zipball/master">zip</a> or
+<a href="http://github.com/certik/mhd-hermes/tarball/master">tar</a> formats.
+</p>
+<p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+by running:
+<pre>$ git clone git://github.com/certik/mhd-hermes</pre>
 </p>
 </div>
 
