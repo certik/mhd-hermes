@@ -3,6 +3,32 @@
 
 {% block title %}MHD{% endblock %}
 
+{% block content %}
+
+<h2 class="title">About</h2>
+<div class="inner">
+<p class="first">
+<code>MHD-Hermes</code> is a <a href="http://en.wikipedia.org/wiki/Magnetohydrodynamics">magnetohydrodynamics</a> simluation software written in C++ and Python, using the <a href="http://hpfem.org/">Hermes</a> hp-FEM library.
+</p>
+<p>
+It was developed during the summer 2009 in the <a href="http://lanl.gov/">Los Alamos National Laboratory</a>.
+</p>
+</div>
+
+<h2 class="title">Example Calculation</h2>
+<div class="inner">
+<p class="first">
+To get some idea what this software is doing, 
+here is a sample video of a pressure vs time (see the <a
+    href="videos.html">Videos section</a> for all videos in high quality):<br/>
+{{ video("http://cloud.github.com/downloads/certik/mhd-hermes/video.png",
+"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 320, 264) }}
+</p>
+</div>
+
+{% endblock %}
+
+
 {% block sidebar %}
 
 <div class="block">
@@ -33,31 +59,6 @@ The list of open issues and bugs is available at:<br/>
 <a href="http://github.com/certik/mhd-hermes/issues">http://github.com/certik/mhd-hermes/issues</a>
 </p>
   </div>
-</div>
-
-{% endblock %}
-
-{% block content %}
-
-<h2 class="title">About</h2>
-<div class="inner">
-<p class="first">
-<code>MHD-Hermes</code> is a <a href="http://en.wikipedia.org/wiki/Magnetohydrodynamics">magnetohydrodynamics</a> simluation software written in C++ and Python, using the <a href="http://hpfem.org/">Hermes</a> hp-FEM library.
-</p>
-<p>
-It was developed during the summer 2009 in the <a href="http://lanl.gov/">Los Alamos National Laboratory</a>.
-</p>
-</div>
-
-<h2 class="title">Example Calculation</h2>
-<div class="inner">
-<p class="first">
-To get some idea what this software is doing, 
-here is a sample video of a pressure vs time (see the <a
-    href="videos.html">Videos section</a> for all videos in high quality):<br/>
-{{ video("http://cloud.github.com/downloads/certik/mhd-hermes/video.png",
-"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 320, 264) }}
-</p>
 </div>
 
 {% endblock %}

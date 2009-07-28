@@ -3,6 +3,21 @@
 
 {% block title %}MHD Videos{% endblock %}
 
+{% block content %}
+
+<h2 class="title">Videos</h2>
+<div class="inner">
+<p class="first">
+Below is a list of all videos created using the <code>mhd-hermes</code> program.
+</p>
+<p>
+{{ video("http://cloud.github.com/downloads/certik/mhd-hermes/video.png",
+"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 640, 504) }}
+</p>
+</div>
+
+{% endblock %}
+
 {% block sidebar %}
 
 <div class="block">
@@ -17,21 +32,6 @@ ffmpeg -b 3600k -i output/frame%04d.png \
 </pre>
     </p>
   </div>
-</div>
-
-{% endblock %}
-
-{% block content %}
-
-<h2 class="title">Videos</h2>
-<div class="inner">
-<p class="first">
-Below is a list of all videos created using the <code>mhd-hermes</code> program.
-</p>
-<p>
-{{ video("http://cloud.github.com/downloads/certik/mhd-hermes/video.png",
-"http://cloud.github.com/downloads/certik/mhd-hermes/video.flv", 640, 504) }}
-</p>
 </div>
 
 {% endblock %}
