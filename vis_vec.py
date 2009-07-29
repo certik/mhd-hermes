@@ -58,13 +58,13 @@ filter.filter.source = field.outputs[0]
 #filter.filter.source = surface.outputs[0]
 
 print "vectors"
-vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=0.5)
+vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=0.25)
 
 print "polishing"
 vectors.glyph.color_mode = 'no_coloring'
 vectors.actor.property.color = (0, 0, 0)
-vectors.glyph.glyph_source.glyph_source.scale = 0.5
-vectors.glyph.glyph_source.glyph_source.center = array([0.25, 0, 0])
+vectors.glyph.glyph_source.glyph_source.scale = 1.033
+vectors.glyph.glyph_source.glyph_source.center = array([0.5, 0, 0])
 print "done"
 
 mlab.view(0.0, 0.0, 10.5, array([ 7.569, 2.5,  0]))
