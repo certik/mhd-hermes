@@ -7,7 +7,7 @@ from glob import glob
 import re
 print "  done."
 
-frames = glob("anim/frame*.vtk")
+frames = glob("anim/frame_scal*.vtk")
 frames.sort()
 max_frame_number = int(re.search("(\d+)", frames[-1]).groups()[0])
 
@@ -17,7 +17,7 @@ height = 480
 mlab.figure(size=(width, height+32))
 mlab.options.offscreen = True
 engine = mlab.get_engine()
-vtk_file_reader = engine.open(u'anim/frame0000.vtk')
+vtk_file_reader = engine.open(u'anim/frame_scal0000.vtk')
 
 warp_scalar = WarpScalar()
 engine.add_filter(warp_scalar, vtk_file_reader)
@@ -38,13 +38,13 @@ print "  done."
 for i in range(max_frame_number+1):
     print "doing:", i
     vtk_file_reader.timestep = i
-    mlab.savefig("output/frame%04d.png" % i)
+    mlab.savefig("output/frame_scal%04d.png" % i)
 
 print "Files saved to output/*"
 print """Create the video using:
-ffmpeg -i output/frame%04d.png -r 15 -vcodec copy output/output.avi
+ffmpeg -i output/frame_scal%04d.png -r 15 -vcodec copy output/output.avi
 ffmpeg2theora output/output.avi -o output.ogv
 
 To produce a FLV video, use:
-ffmpeg -b 3600k -i output/frame%04d.png -r 15 video.flv
+ffmpeg -b 3600k -i output/frame_scal%04d.png -r 15 video.flv
 """
