@@ -27,47 +27,9 @@ engine.add_module(surface, obj=None)
 #surface1 = Surface()
 #engine.add_filter(surface1, warp_scalar)
 
-def better():
-    g = vtk_file_reader.outputs[0]
-    points = array(g.points)
-    vectors = array(g.point_data.vectors)
-    assert len(points) == len(vectors)
-
-    def dist(p, q):
-        return (p[0]-q[0])**2 + (p[1]-q[1])**2 + (p[2]-q[2])**2
-
-    def find_nearest_point(x, y, z):
-        min = 10**8
-        _id = None
-        for id, p in enumerate(points):
-            d = dist(p, (x, y, z))
-            if d < min:
-                min = d
-                _id = id
-        return _id
-
-    x, y, z = numpy.mgrid[0:15.1:0.5, 0:5.1:0.5, 0.1:1]
-
-    u = numpy.sin(x)
-    v = numpy.sin(y)
-    w = numpy.zeros_like(z)
-    print "finding nearest stuff"
-    for i in range(x.shape[0]):
-        for j in range(x.shape[1]):
-            for k in range(x.shape[2]):
-                id = find_nearest_point(x[i, j, k], y[i, j, k], z[i, j, k])
-                u[i, j, k] = vectors[id][0]
-                v[i, j, k] = vectors[id][1]
-                w[i, j, k] = vectors[id][2]
-                print i, j, k, id
-    print "ok"
-    #import IPython; IPython.embed()
-    mlab.quiver3d(x, y, z, u, v, w, line_width=1, scale_factor=1, color=(0, 0, 0))
-
-
 print "delaunay2d"
 field = mlab.pipeline.delaunay2d(vtk_file_reader)
-print "setting tolerance"
+#print "setting tolerance"
 #import IPython; IPython.embed()
 # this looks ugly:
 #field.filter.tolerance = 0.1065
