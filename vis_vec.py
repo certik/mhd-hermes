@@ -75,6 +75,9 @@ mlab.roll(0)
 for i in range(max_frame_number+1):
     print "doing:", i
     vtk_file_reader.timestep = i
+    vectors.actor.property.color = (0, 0, 0)
+    vectors.glyph.glyph_source.glyph_source.scale = 1.033
+    vectors.glyph.glyph_source.glyph_source.center = array([0.5, 0, 0])
     mlab.savefig("output/frame_vec%04d.png" % i)
 
 print "Files saved to output/*"
