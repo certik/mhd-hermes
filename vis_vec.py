@@ -15,10 +15,10 @@ frames.sort()
 max_frame_number = int(re.search("(\d+)", frames[-1]).groups()[0])
 
 print "plotting the main frame..."
-width = 640
-height = 480
+width = 1000
+height = 360
 mlab.figure(size=(width, height+32))
-#mlab.options.offscreen = True
+mlab.options.offscreen = True
 
 engine = mlab.get_engine()
 vtk_file_reader = engine.open(u'anim/frame_vec0000.vtk')
@@ -67,14 +67,15 @@ vectors.glyph.glyph_source.glyph_source.scale = 0.5
 vectors.glyph.glyph_source.glyph_source.center = array([0.25, 0, 0])
 print "done"
 
-mlab.view(0.0, 0.0, 22, array([ 7.569, 2.5,  0]))
+mlab.view(0.0, 0.0, 10.5, array([ 7.569, 2.5,  0]))
 mlab.roll(0)
-mlab.show()
-#stop
-#for i in range(max_frame_number+1):
-#    print "doing:", i
-#    vtk_file_reader.timestep = i
-#    mlab.savefig("output/frame_vec%04d.png" % i)
+
+#mlab.show()
+
+for i in range(max_frame_number+1):
+    print "doing:", i
+    vtk_file_reader.timestep = i
+    mlab.savefig("output/frame_vec%04d.png" % i)
 
 print "Files saved to output/*"
 print """Create the video using:
