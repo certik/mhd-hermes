@@ -16,10 +16,10 @@ vtk_file_reader = engine.open(u'/home/ondrej/repos/mhd-hermes/frame_vec0030.vtk'
 #vectors = Vectors()
 #engine.add_module(vectors, obj=None)
 
-#extract_vector_norm = ExtractVectorNorm()
-#engine.add_filter(extract_vector_norm, obj=None)
-#surface = Surface()
-#engine.add_module(surface, obj=None)
+extract_vector_norm = ExtractVectorNorm()
+engine.add_filter(extract_vector_norm, obj=None)
+surface = Surface()
+engine.add_module(surface, obj=None)
 
 # show 3D model of the vector norms:
 #warp_scalar = WarpScalar()
@@ -64,20 +64,27 @@ def better():
     #import IPython; IPython.embed()
     mlab.quiver3d(x, y, z, u, v, w, line_width=1, scale_factor=1, color=(0, 0, 0))
 
-#vectors.glyph.color_mode = 'no_coloring'
-#vectors.actor.property.color = (0, 0, 0)
+
+print "delaunay2d"
+field = mlab.pipeline.delaunay2d(vtk_file_reader)
+print "grid"
+x_g, y_g, z_g = numpy.mgrid[0:15:40j, 0:5:40j, 0:1:1j]
+print "scalar_scatter"
+sampling_grid = mlab.pipeline.scalar_scatter(x_g, y_g, z_g)
+
+print "ProbeFilter"
+filter = mlab.pipeline.user_defined(sampling_grid, filter='ProbeFilter')
+print "outputs"
+filter.filter.source = field.outputs[0]
+
+print "vectors"
+vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=1)
+print "done"
+
+vectors.glyph.color_mode = 'no_coloring'
+vectors.actor.property.color = (0, 0, 0)
 #vectors.glyph.mask_input_points = True
 #vectors.glyph.mask_points.random_mode = False
 #vectors.glyph.mask_points.on_ratio = 200
-
-field = mlab.pipeline.delaunay2d(vtk_file_reader)
-x_g, y_g, z_g = numpy.mgrid[0:15:40j, 0:5:40j, 0:1:1j]
-sampling_grid = mlab.pipeline.scalar_scatter(x_g, y_g, z_g)
-
-filter = mlab.pipeline.user_defined(sampling_grid, filter='ProbeFilter')
-filter.filter.source = field.outputs[0]
-
-vec2 = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=1)
-print "done"
 
 mlab.show()
