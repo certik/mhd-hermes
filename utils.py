@@ -70,7 +70,7 @@ def save_vtk(vert, triangles):
     for t in triangles:
         connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
             int(t[2])))
-    vars = (("nodal", 1, 1, node_scalars), )
+    vars = (("pressure", 1, 1, node_scalars), )
     visit_writer.WriteUnstructuredMesh("frame%04d.vtk" % iter, 1, pts,
             connectivity, vars)
     iter += 1
@@ -93,6 +93,6 @@ def save_vtk_vec(vert, triangles):
     for t in triangles:
         connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
             int(t[2])))
-    vars = (("v", 3, 1, vector), )
+    vars = (("velocity", 3, 1, vector), )
     visit_writer.WriteUnstructuredMesh("frame_vec%04d.vtk" % iter, 1, pts,
             connectivity, vars)
