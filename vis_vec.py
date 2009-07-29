@@ -86,15 +86,11 @@ filter.filter.source = field.outputs[0]
 #filter.filter.source = surface.outputs[0]
 
 print "vectors"
-vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=0.1)
+vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=0.5)
 print "done"
 
 vectors.glyph.color_mode = 'no_coloring'
 vectors.actor.property.color = (0, 0, 0)
-#vectors.glyph.mask_input_points = True
-#vectors.glyph.mask_points.random_mode = False
-#vectors.glyph.mask_points.on_ratio = 200
-vectors.glyph.glyph.scale_factor = 0.5
 vectors.glyph.glyph_source.glyph_source.scale = 0.5
 vectors.glyph.glyph_source.glyph_source.center = array([0.25, 0, 0])
 
