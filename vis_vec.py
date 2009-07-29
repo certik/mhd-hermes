@@ -58,11 +58,12 @@ filter.filter.source = field.outputs[0]
 #filter.filter.source = surface.outputs[0]
 
 print "vectors"
-vectors = mlab.pipeline.vectors(filter, mode='2darrow', scale_factor=0.25)
+vectors = mlab.pipeline.vectors(filter, mode='2darrow')
 
 print "polishing"
 vectors.glyph.color_mode = 'no_coloring'
 vectors.actor.property.color = (0, 0, 0)
+vectors.glyph.glyph.scale_factor = 0.25
 vectors.glyph.glyph_source.glyph_source.scale = 1.033
 vectors.glyph.glyph_source.glyph_source.center = array([0.5, 0, 0])
 print "done"
@@ -76,7 +77,8 @@ for i in range(max_frame_number+1):
     print "doing:", i
     vtk_file_reader.timestep = i
     vectors.actor.property.color = (0, 0, 0)
-    vectors.glyph.glyph_source.glyph_source.scale = 1.033
+    vectors.glyph.glyph.scale_factor = 0.25
+    vectors.glyph.glyph_source.glyph_source.scale = 1.033*0.5
     vectors.glyph.glyph_source.glyph_source.center = array([0.5, 0, 0])
     mlab.savefig("output/frame_vec%04d.png" % i)
 
