@@ -161,14 +161,14 @@ int main(int argc, char* argv[])
   wf.add_liform(1, linear_form_1, ANY, 1, &yprev);
 
   // visualization
-  VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
-  ScalarView pview("pressure [Pa]", 0, 530, 1500, 470);
-  vview.set_min_max_range(0, 1.6);
-  pview.show_mesh(false);
+  //VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
+  //ScalarView pview("pressure [Pa]", 0, 530, 1500, 470);
+  //vview.set_min_max_range(0, 1.6);
+  //pview.show_mesh(false);
   // fixing scale width (for nicer videos). Note: creation of videos is
   // discussed in a separate example
-  vview.fix_scale_width(5);
-  pview.fix_scale_width(5);
+  //vview.fix_scale_width(5);
+  //pview.fix_scale_width(5);
 
   // set up the linear system
   DummySolver umfpack;
@@ -245,10 +245,10 @@ int main(int argc, char* argv[])
 
     // visualization
     sprintf(title, "Velocity, time %g", TIME);
-    vview.set_title(title);
+    //vview.set_title(title);
     //vview.show(&xprev, &yprev, EPS_LOW);
     sprintf(title, "Pressure, time %g", TIME);
-    pview.set_title(title);
+    //pview.set_title(title);
     //pview.show(&psln);
 
     xprev = xsln;
