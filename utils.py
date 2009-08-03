@@ -2,8 +2,18 @@ import xmlrpclib
 import cPickle
 import subprocess
 from time import sleep
-import visit_writer
+from optparse import OptionParser
+
 from numpy import zeros
+import visit_writer
+
+
+parser = OptionParser()
+parser.add_option("--life", "-l", action="store_true", dest="life",
+        default=False, help="Show life visualization")
+options, args = parser.parse_args()
+
+
 
 p = None
 s = None
@@ -52,10 +62,16 @@ def plot_on_server(vert, triangles):
     print "   done."
 
 def plot(vert, triangles):
-    save_vtk(vert, triangles)
+    if options.life:
+        plot_on_server(vert, triangles)
+    else:
+        save_vtk(vert, triangles)
 
 def plot_vec(vert, triangles):
-    save_vtk_vec(vert, triangles)
+    if options.life:
+        pass
+    else:
+        save_vtk_vec(vert, triangles)
 
 iter = 0
 def save_vtk(vert, triangles):
