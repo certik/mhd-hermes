@@ -1,4 +1,5 @@
 import sys
+import os
 import xmlrpclib
 import cPickle
 import subprocess
@@ -9,15 +10,25 @@ from numpy import zeros
 import visit_writer
 
 
-parser = OptionParser()
+usage = "usage: %prog [options]"
+description = """\
+Magnetohydrodynamics (MHD) simulation software.
+This package does MHD simulations using the Hermes2D hp-FEM library.
+Documentation available at: http://certik.github.com/mhd-hermes/
+"""
+parser = OptionParser(usage=usage, description=description)
 parser.add_option("--life", "-l", action="store_true", dest="life",
         default=False, help="Show life visualization")
 parser.add_option("--vtk", action="store_true", dest="vtk",
         default=False, help="Save to vtk")
+parser.add_option("--delete", "-d", action="store_true", dest="delete_output",
+        default=False, help="Delete the output directory first")
 options, args = parser.parse_args()
 if not options.life and not options.vtk:
     parser.print_help()
     sys.exit()
+if options.delete_output:
+    os.system("rm -r output")
 
 
 
@@ -93,7 +104,9 @@ def save_vtk(vert, triangles):
         connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
             int(t[2])))
     vars = (("pressure", 1, 1, node_scalars), )
-    visit_writer.WriteUnstructuredMesh("frame_scal%04d.vtk" % iter, 1, pts,
+    if not os.path.exists("output"):
+        os.mkdir("output")
+    visit_writer.WriteUnstructuredMesh("output/frame_scal%04d.vtk" % iter, 1, pts,
             connectivity, vars)
 
 def save_vtk_vec(vert, triangles):
