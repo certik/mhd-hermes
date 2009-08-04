@@ -102,6 +102,13 @@ scalar linear_form_1(RealFunction* fv, RefMap* rv)
 
 int main(int argc, char* argv[])
 {
+  // Initialize Python
+  Py_Initialize();
+  PySys_SetArgv(argc, argv);
+  if (import_hermes2d___hermes2d())
+      throw std::runtime_error("hermes2d failed to import.");
+  cmd("import utils");
+
   // load the mesh file
   Mesh mesh;
   mesh.load("domain-quad.mesh"); // unstructured triangular mesh available in domain-tri.mesh
@@ -176,14 +183,8 @@ int main(int argc, char* argv[])
   sys.set_spaces(3, &xvel, &yvel, &press);
   sys.set_pss(3, &pss_h1, &pss_h1, &pss_l2);
 
-  // Initialize Python
-  Py_Initialize();
-  PySys_SetArgv(argc, argv);
-  if (import_hermes2d___hermes2d())
-      throw std::runtime_error("hermes2d failed to import.");
 
   cmd("from hermes2d import Linearizer, Vectorizer");
-  cmd("import utils");
   cmd("from scipy.sparse import csc_matrix");
   cmd("from scipy.sparse.linalg.dsolve import spsolve");
   cmd("from scipy.sparse.linalg import cg");

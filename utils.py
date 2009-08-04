@@ -1,3 +1,4 @@
+import sys
 import xmlrpclib
 import cPickle
 import subprocess
@@ -11,7 +12,12 @@ import visit_writer
 parser = OptionParser()
 parser.add_option("--life", "-l", action="store_true", dest="life",
         default=False, help="Show life visualization")
+parser.add_option("--vtk", action="store_true", dest="vtk",
+        default=False, help="Save to vtk")
 options, args = parser.parse_args()
+if not options.life and not options.vtk:
+    parser.print_help()
+    sys.exit()
 
 
 
@@ -64,7 +70,7 @@ def plot_on_server(vert, triangles):
 def plot(vert, triangles):
     if options.life:
         plot_on_server(vert, triangles)
-    else:
+    if options.vtk:
         save_vtk(vert, triangles)
 
 def plot_vec(vert, triangles):
