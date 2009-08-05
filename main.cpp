@@ -118,6 +118,9 @@ int main(int argc, char* argv[])
   mesh.refine_towards_boundary(marker_obstacle, 4, false);
   mesh.refine_towards_boundary(marker_bottom, 4);
   mesh.refine_towards_boundary(marker_top, 4);
+  // plot the mesh:
+  //insert_object("mesh", Mesh_from_C(&mesh));
+  //cmd("mesh.plot(lib='mpl', method='orders')");
 
   // display the mesh
   //MeshView mview("Navier-Stokes Example - Mesh", 100, 100, 1100, 400);
