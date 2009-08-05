@@ -44,7 +44,7 @@ field = mlab.pipeline.delaunay2d(vtk_file_reader)
 # this looks ugly:
 #field.filter.tolerance = 0.1065
 print "grid"
-x_g, y_g, z_g = numpy.mgrid[0:15:60j, 0:5:60j, 0:1:1j]
+x_g, y_g, z_g = numpy.mgrid[0:10:60j, 0:10:60j, 0:1:1j]
 print "scalar_scatter"
 sampling_grid = mlab.pipeline.scalar_scatter(x_g, y_g, z_g)
 
@@ -68,7 +68,7 @@ vectors.glyph.glyph_source.glyph_source.scale = 1.033
 vectors.glyph.glyph_source.glyph_source.center = array([0.5, 0, 0])
 print "done"
 
-mlab.view(0.0, 0.0, 10.5, array([ 7.569, 2.5,  0]))
+mlab.view(0.0, 0.0, 19.6, array([5, 5, 0]))
 mlab.roll(0)
 
 #mlab.show()
