@@ -2,7 +2,7 @@ L = 10            # domain length (should be a multiple of 3)
 H = 10             # domain height
 S1 = 2.5          # x-center of circle
 S2 = 5          # y-center of circle
-A = 1 # helper length
+A = 0.3          # helper length
 EPS = 0.00        # inducing mesh non-symmetry
 
 vertices =

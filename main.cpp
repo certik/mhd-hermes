@@ -39,7 +39,7 @@ const int P_INIT_VEL = 2;            // polynomial degree for velocity component
 const int P_INIT_PRESSURE = 1;       // polynomial degree for pressure
                                      // Note: P_INIT_VEL should always be greater than
                                      // P_INIT_PRESSURE because of the inf-sup condition
-const double H = 5.0;                // domain height (necessary to define the parabolic
+const double H = 10;                // domain height (necessary to define the parabolic
                                      // velocity profile at inlet)
 
 //  boundary markers
@@ -116,8 +116,8 @@ int main(int argc, char* argv[])
   // a-priori mesh refinements
   mesh.refine_all_elements();
   mesh.refine_towards_boundary(marker_obstacle, 4, false);
-  mesh.refine_towards_boundary(marker_bottom, 4);
-  mesh.refine_towards_boundary(marker_top, 4);
+  //mesh.refine_towards_boundary(marker_bottom, 4);
+  //mesh.refine_towards_boundary(marker_top, 4);
   // plot the mesh:
   //insert_object("mesh", Mesh_from_C(&mesh));
   //cmd("mesh.plot(lib='mpl', method='orders')");
