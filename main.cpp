@@ -70,7 +70,11 @@ scalar xvel_bc_value(int marker, double x, double y) {
   if (marker == marker_left) {
     // time-dependent inlet velocity
     //double val_y = VEL_INLET; //constant profile
-    double val_y = VEL_INLET * y*(H-y) / (H/2.)/(H/2.); //parabolic profile with peak VEL_INLET at y = H/2
+    double val_y = VEL_INLET * (H*H/4.-y*y) / (H/2.)/(H/2.);
+    /*insert_double_array("x", &x, 1);
+    insert_double_array("y", &y, 1);
+    insert_double_array("val_y", &val_y, 1);
+    cmd("print x, y, val_y");*/
     if (TIME <= STARTUP_TIME) return val_y * TIME/STARTUP_TIME;
     else return val_y;
   }
@@ -111,12 +115,15 @@ int main(int argc, char* argv[])
 
   // load the mesh file
   Mesh mesh;
-  mesh.load("domain-quad.mesh"); // unstructured triangular mesh available in domain-tri.mesh
+  mesh.load("square.mesh");
 
   // a-priori mesh refinements
   mesh.refine_all_elements();
   mesh.refine_all_elements();
-  mesh.refine_towards_boundary(marker_obstacle, 3, false);
+  mesh.refine_all_elements();
+  mesh.refine_all_elements();
+  mesh.refine_all_elements();
+  //mesh.refine_towards_boundary(marker_obstacle, 3, false);
   //mesh.refine_towards_boundary(marker_bottom, 4);
   //mesh.refine_towards_boundary(marker_top, 4);
   // plot the mesh:
