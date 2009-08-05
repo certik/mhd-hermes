@@ -10,7 +10,7 @@ from glob import glob
 import re
 print "  done."
 
-frames = glob("anim/frame_vec*.vtk")
+frames = glob("output/frame_vec*.vtk")
 frames.sort()
 max_frame_number = int(re.search("(\d+)", frames[-1]).groups()[0])
 
@@ -21,7 +21,7 @@ mlab.figure(size=(width, height+32))
 mlab.options.offscreen = True
 
 engine = mlab.get_engine()
-vtk_file_reader = engine.open(u'anim/frame_vec0000.vtk')
+vtk_file_reader = engine.open(u'output/frame_vec0000.vtk')
 
 #vectors = Vectors()
 #engine.add_module(vectors, obj=None)

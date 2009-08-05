@@ -87,8 +87,9 @@ def plot(vert, triangles):
 def plot_vec(vert, triangles):
     if options.life:
         pass
-    else:
+    elif options.vtk:
         save_vtk_vec(vert, triangles)
+
 
 iter = 0
 def save_vtk(vert, triangles):
@@ -128,6 +129,8 @@ def save_vtk_vec(vert, triangles):
         connectivity.append((visit_writer.triangle, int(t[0]), int(t[1]),
             int(t[2])))
     vars = (("velocity", 3, 1, vector), )
-    visit_writer.WriteUnstructuredMesh("frame_vec%04d.vtk" % iter, 1, pts,
+    if not os.path.exists("output"):
+        os.mkdir("output")
+    visit_writer.WriteUnstructuredMesh("output/frame_vec%04d.vtk" % iter, 1, pts,
             connectivity, vars)
     iter += 1
