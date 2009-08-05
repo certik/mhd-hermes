@@ -54,12 +54,12 @@ double TIME = 0;
 
 // definition of boundary conditions
 int xvel_bc_type(int marker) {
-  if (marker == 2) return BC_NONE;
+  if (marker == marker_right) return BC_NONE;
   else return BC_ESSENTIAL;
 }
 
 int yvel_bc_type(int marker) {
-  if (marker == 2) return BC_NONE;
+  if (marker == marker_right) return BC_NONE;
   else return BC_ESSENTIAL;
 }
 
@@ -67,7 +67,7 @@ int press_bc_type(int marker)
   { return BC_NONE; }
 
 scalar xvel_bc_value(int marker, double x, double y) {
-  if (marker == 4) {
+  if (marker == marker_left) {
     // time-dependent inlet velocity
     //double val_y = VEL_INLET; //constant profile
     double val_y = VEL_INLET * y*(H-y) / (H/2.)/(H/2.); //parabolic profile with peak VEL_INLET at y = H/2
@@ -115,9 +115,9 @@ int main(int argc, char* argv[])
 
   // a-priori mesh refinements
   mesh.refine_all_elements();
-  mesh.refine_towards_boundary(5, 4, false);
-  mesh.refine_towards_boundary(1, 4);
-  mesh.refine_towards_boundary(3, 4);
+  mesh.refine_towards_boundary(marker_obstacle, 4, false);
+  mesh.refine_towards_boundary(marker_bottom, 4);
+  mesh.refine_towards_boundary(marker_top, 4);
 
   // display the mesh
   //MeshView mview("Navier-Stokes Example - Mesh", 100, 100, 1100, 400);
