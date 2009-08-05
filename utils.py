@@ -85,9 +85,7 @@ def plot(vert, triangles):
         save_vtk(vert, triangles)
 
 def plot_vec(vert, triangles):
-    if options.life:
-        pass
-    elif options.vtk:
+    if options.vtk:
         save_vtk_vec(vert, triangles)
 
 

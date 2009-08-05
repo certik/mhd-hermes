@@ -1,6 +1,5 @@
-
-L = 15            # domain length (should be a multiple of 3)
-H = 5             # domain height
+L = 10            # domain length (should be a multiple of 3)
+H = 10             # domain height
 S1 = 5/2          # x-center of circle
 S2 = 5/2          # y-center of circle
 R = 1             # circle radius
