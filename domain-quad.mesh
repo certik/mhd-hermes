@@ -2,7 +2,7 @@ L = 10            # domain length (should be a multiple of 3)
 H = 10             # domain height
 S1 = 2.5          # x-center of circle
 S2 = 5          # y-center of circle
-A = 0.3          # helper length
+A = 0.6          # helper length
 EPS = 0.00        # inducing mesh non-symmetry
 
 vertices =
@@ -14,7 +14,7 @@ vertices =
   { 2*L/3, 0 },        # 4
   { L, 0 },            # 5
   { 0, S2 - A },       # 6
-  { S1 - A, S2 - A },  # 7
+  { S1 - A/10, S2 - A/10 },  # 7
   { S1 + A, S2 - A },  # 8
   { L/2, S2 - A },     # 9
   { 2*L/3, S2 - A },   # 10
@@ -77,8 +77,6 @@ boundaries =
 
 curves =
 {
-  { 7, 8, 90 },   # 45 degrees circular arc
-  { 8, 14, 90 },  # 45 degrees circular arc
-  { 14, 13, 90 }, # 45 degrees circular arc
-  { 13, 7, 90 }   # 45 degrees circular arc
+  { 8, 14, 90 },
+  { 14, 13, 90 }
 }
