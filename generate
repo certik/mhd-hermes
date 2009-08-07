@@ -12,7 +12,7 @@ def md5_filter(value):
 env = Environment(loader=FileSystemLoader('templates'))
 env.filters["md5"] = md5_filter
 
-templates = ["index.html", "videos.html", "links.html"]
+templates = ["index.html", "videos.html", "links.html", "docs.html"]
 
 for template in templates:
     t = env.get_template(template)

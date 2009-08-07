@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MHD Equations &mdash; mhd-hermes v0.1 documentation</title>
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="mhd-hermes v0.1 documentation" href="index.html" />
+    <link rel="prev" title="Installation instructions" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installation instructions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">mhd-hermes v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mhd-equations">
+<h1>MHD Equations<a class="headerlink" href="#mhd-equations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The magnetohydrodynamics (MHD) equations are:</p>
+<div class="math">
+<p><img src="images/math/89571838c3dd9d3c371a81280dca04704ccc5334.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
+
+\rho\left(\frac{\partial {\bf v}}{\partial t} + ({\bf v} \cdot \nabla)
+ {\bf v} \right) = -\nabla p +
+ {1\over\mu}(\nabla\times{\bf B}) \times {\bf B} + \rho {\bf g}
+
+{\partial {\bf B}\over\partial t}
+        = \nabla\times({\bf v}\times{\bf B}) + \eta\nabla^2{\bf B}
+
+\nabla\cdot{\bf B} = 0" />
+</div></p><p>assuming <img class="math" src="images/math/03a45952f8115322d2879f7d090126f059757ba0.png" alt="\eta"/> is constant. See the next section for a derivation. We
+can now apply the following identities (we use the fact that
+<img class="math" src="images/math/963467245c18de12191607dae93b2fd06b4faa71.png" alt="\nabla\cdot{\bf B}=0"/>):</p>
+<div class="math">
+<p><img src="images/math/e229fa23dfc58c18c70f019dd6644cede192fc08.png" alt="(\nabla\times{\bf B}) \times {\bf B} &amp;=
+    ({\bf B}\cdot\nabla){\bf B} - {\bf B}(\nabla\cdot{\bf B}) =
+    ({\bf B}\cdot\nabla){\bf B}=
+    ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B}) =
+    \nabla\cdot({\bf B}{\bf B}^T)\\
+\nabla\times({\bf v} \times {\bf B}) &amp;=
+    ({\bf B}\cdot\nabla){\bf v} - {\bf B}(\nabla\cdot{\bf v})
+    +{\bf v}(\nabla\cdot {\bf B}) - ({\bf v}\cdot\nabla) {\bf B}
+    =
+    \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T)\\
+\nabla\cdot(\rho{\bf v}{\bf v}^T) &amp;=
+    \left(\nabla\cdot(\rho{\bf v})\right){\bf v}
+    + \rho({\bf v}\cdot\nabla){\bf v}=
+    -{\bf v}\frac{\partial \rho}{\partial t}
+    + \rho({\bf v}\cdot\nabla){\bf v}" />
+</div></p><p>So the MHD equations can alternatively be written as:</p>
+<div class="math">
+<p><img src="images/math/08bbd3f4e10f403d49429ecd2d5ec95182c9b413.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
+
+\frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
+    = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}
+
+{\partial {\bf B}\over\partial t}
+        = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}
+
+\nabla\cdot{\bf B} = 0" />
+</div></p></div>
+<div class="section" id="derivation">
+<h2>Derivation<a class="headerlink" href="#derivation" title="Permalink to this headline">¶</a></h2>
+<p>The above equations can easily be derived. We have the continuity equation:</p>
+<div class="math">
+<p><img src="images/math/dde2135ec49c7cd0eabc50e9c3c5253ec242582e.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0" />
+</div></p><p>Navier-Stokes equations (momentum equation) with the Lorentz force on the
+right-hand side:</p>
+<div class="math">
+<p><img src="images/math/71a126ac1c9c5de85353d04e62ede324f93ca6ee.png" alt="\rho\left(\frac{\partial {\bf v}}{\partial t} + ({\bf v} \cdot \nabla)
+ {\bf v} \right) = -\nabla p + {\bf j} \times {\bf B} + \rho {\bf g}" />
+</div></p><p>where the current density <img class="math" src="images/math/2f03ee335cd302ac22c46cb21d5f9c5ddaf9090b.png" alt="{\bf j}"/> is given by the Maxwell equation (we
+neglect the displacement current <img class="math" src="images/math/67be5222797abe86920a57d59d81c8983771699c.png" alt="{\partial{\bf E}\over\partial t}"/>):</p>
+<div class="math">
+<p><img src="images/math/bdce22228f4c3d79f0779cadd4fef7f986c57759.png" alt="{\bf j} = {1\over\mu}\nabla\times{\bf B}" />
+</div></p><p>and the Lorentz force:</p>
+<div class="math">
+<p><img src="images/math/7e07ea3b681e8c20423090355d8ed5a5e7b1a1ec.png" alt="{1\over\sigma}{\bf j} = {\bf E} + {\bf v}\times{\bf B}" />
+</div></p><p>from which we eliminate <img class="math" src="images/math/99ee03f3854092e4a9bc48ff28bab3ffcb9d66b7.png" alt="{\bf E}"/>:</p>
+<div class="math">
+<p><img src="images/math/59485b0482fea8fb9c5e332f8c9f4fafdfa4d134.png" alt="{\bf E} = - {\bf v}\times{\bf B} + {1\over\sigma}{\bf j} =
+          - {\bf v}\times{\bf B} + {1\over\sigma\mu}\nabla\times{\bf B}" />
+</div></p><p>and put it into the Maxwell equation:</p>
+<div class="math">
+<p><img src="images/math/bd29cb84885da5204d57a2fe1e3f8ef4edc78dad.png" alt="{\partial {\bf B}\over\partial t} = -\nabla\times{\bf E}" />
+</div></p><p>so we get:</p>
+<div class="math">
+<p><img src="images/math/3f8f4d5763be1b37470dd7e044cdbe4b67b0b626.png" alt="{\partial {\bf B}\over\partial t} = \nabla\times({\bf v}\times{\bf B})
+            - \nabla\times\left({1\over\sigma\mu}\nabla\times{\bf B}\right)" />
+</div></p><p>assuming the magnetic diffusivity <img class="math" src="images/math/11fd67b21bd6593278428d7356faaafe7c9dca08.png" alt="\eta={1\over\sigma\mu}"/> is constant, we
+get:</p>
+<div class="math">
+<p><img src="images/math/d6f8d5b7ca35193e8d4a5d5c4ccab274fa9f2eba.png" alt="{\partial {\bf B}\over\partial t} = \nabla\times({\bf v}\times{\bf B})
+            - \eta\nabla\times\left(\nabla\times{\bf B}\right)
+        = \nabla\times({\bf v}\times{\bf B})
+            + \eta\left(\nabla^2{\bf B}-\nabla(\nabla\cdot{\bf B})\right)
+        = \nabla\times({\bf v}\times{\bf B}) + \eta\nabla^2{\bf B}" />
+</div></p><p>where we used the Maxwell equation:</p>
+<div class="math">
+<p><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
+</div></p></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">MHD Equations</a><ul>
+<li><a class="reference external" href="#introduction">Introduction</a></li>
+<li><a class="reference external" href="#derivation">Derivation</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="install.html"
+                                  title="previous chapter">Installation instructions</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="sources/physics.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installation instructions"
+             >previous</a> |</li>
+        <li><a href="index.html">mhd-hermes v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ondrej Certik.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>
