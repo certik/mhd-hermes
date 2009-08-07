@@ -7,15 +7,25 @@ Introduction
 The magnetohydrodynamics (MHD) equations are:
 
 .. math::
+    :label: MHD1
 
     \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
+
+.. math::
+    :label: MHD2
 
     \rho\left(\frac{\partial {\bf v}}{\partial t} + ({\bf v} \cdot \nabla)
      {\bf v} \right) = -\nabla p +
      {1\over\mu}(\nabla\times{\bf B}) \times {\bf B} + \rho {\bf g}
 
+.. math::
+    :label: MHD3
+
     {\partial {\bf B}\over\partial t}
             = \nabla\times({\bf v}\times{\bf B}) + \eta\nabla^2{\bf B}
+
+.. math::
+    :label: MHD4
 
     \nabla\cdot{\bf B} = 0
 
@@ -44,14 +54,24 @@ can now apply the following identities (we use the fact that
 So the MHD equations can alternatively be written as:
 
 .. math::
+    :label: MHD1b
 
     \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
+
+.. math::
+    :label: MHD2b
 
     \frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
         = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}
 
+.. math::
+    :label: MHD3b
+
     {\partial {\bf B}\over\partial t}
             = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}
+
+.. math::
+    :label: MHD4b
 
     \nabla\cdot{\bf B} = 0
 
