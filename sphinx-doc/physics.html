@@ -46,17 +46,17 @@
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>The magnetohydrodynamics (MHD) equations are:</p>
-<div class="math">
-<p><img src="images/math/89571838c3dd9d3c371a81280dca04704ccc5334.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
-
-\rho\left(\frac{\partial {\bf v}}{\partial t} + ({\bf v} \cdot \nabla)
+<div class="math" id="equation-MHD1">
+<p><span class="eqno">(1)</span><img src="images/math/dde2135ec49c7cd0eabc50e9c3c5253ec242582e.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0" />
+</div></p><div class="math" id="equation-MHD2">
+<p><span class="eqno">(2)</span><img src="images/math/beb619e9aa467beaaafa21cfb4bc3869f98cd9a5.png" alt="\rho\left(\frac{\partial {\bf v}}{\partial t} + ({\bf v} \cdot \nabla)
  {\bf v} \right) = -\nabla p +
- {1\over\mu}(\nabla\times{\bf B}) \times {\bf B} + \rho {\bf g}
-
-{\partial {\bf B}\over\partial t}
-        = \nabla\times({\bf v}\times{\bf B}) + \eta\nabla^2{\bf B}
-
-\nabla\cdot{\bf B} = 0" />
+ {1\over\mu}(\nabla\times{\bf B}) \times {\bf B} + \rho {\bf g}" />
+</div></p><div class="math" id="equation-MHD3">
+<p><span class="eqno">(3)</span><img src="images/math/43aa2bbbde6120810f7c9d650c164a37248fa2de.png" alt="{\partial {\bf B}\over\partial t}
+        = \nabla\times({\bf v}\times{\bf B}) + \eta\nabla^2{\bf B}" />
+</div></p><div class="math" id="equation-MHD4">
+<p><span class="eqno">(4)</span><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
 </div></p><p>assuming <img class="math" src="images/math/03a45952f8115322d2879f7d090126f059757ba0.png" alt="\eta"/> is constant. See the next section for a derivation. We
 can now apply the following identities (we use the fact that
 <img class="math" src="images/math/963467245c18de12191607dae93b2fd06b4faa71.png" alt="\nabla\cdot{\bf B}=0"/>):</p>
@@ -77,16 +77,16 @@ can now apply the following identities (we use the fact that
     -{\bf v}\frac{\partial \rho}{\partial t}
     + \rho({\bf v}\cdot\nabla){\bf v}" />
 </div></p><p>So the MHD equations can alternatively be written as:</p>
-<div class="math">
-<p><img src="images/math/08bbd3f4e10f403d49429ecd2d5ec95182c9b413.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
-
-\frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
-    = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}
-
-{\partial {\bf B}\over\partial t}
-        = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}
-
-\nabla\cdot{\bf B} = 0" />
+<div class="math" id="equation-MHD1b">
+<p><span class="eqno">(5)</span><img src="images/math/dde2135ec49c7cd0eabc50e9c3c5253ec242582e.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0" />
+</div></p><div class="math" id="equation-MHD2b">
+<p><span class="eqno">(6)</span><img src="images/math/901655c4668da05bb36fbb58d16f14fd87136f17.png" alt="\frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
+    = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}" />
+</div></p><div class="math" id="equation-MHD3b">
+<p><span class="eqno">(7)</span><img src="images/math/554ee848d32239e3197678c4b887df0cc84968f5.png" alt="{\partial {\bf B}\over\partial t}
+        = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}" />
+</div></p><div class="math" id="equation-MHD4b">
+<p><span class="eqno">(8)</span><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
 </div></p></div>
 <div class="section" id="derivation">
 <h2>Derivation<a class="headerlink" href="#derivation" title="Permalink to this headline">¶</a></h2>
