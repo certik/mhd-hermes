@@ -20,18 +20,40 @@ The magnetohydrodynamics (MHD) equations are:
     \nabla\cdot{\bf B} = 0
 
 assuming :math:`\eta` is constant. See the next section for a derivation. We
-can now apply the following identities:
+can now apply the following identities (we use the fact that
+:math:`\nabla\cdot{\bf B}=0`):
 
 .. math::
 
     (\nabla\times{\bf B}) \times {\bf B} &=
         ({\bf B}\cdot\nabla){\bf B} - {\bf B}(\nabla\cdot{\bf B}) =
-        ({\bf B}\cdot\nabla){\bf B}\\
+        ({\bf B}\cdot\nabla){\bf B}=
+        ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B}) =
+        \nabla\cdot({\bf B}{\bf B}^T)\\
     \nabla\times({\bf v} \times {\bf B}) &=
         ({\bf B}\cdot\nabla){\bf v} - {\bf B}(\nabla\cdot{\bf v})
         +{\bf v}(\nabla\cdot {\bf B}) - ({\bf v}\cdot\nabla) {\bf B}
         =
-        \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T)
+        \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T)\\
+    \nabla\cdot(\rho{\bf v}{\bf v}^T) &=
+        \left(\nabla\cdot(\rho{\bf v})\right){\bf v}
+        + \rho({\bf v}\cdot\nabla){\bf v}=
+        -{\bf v}\frac{\partial \rho}{\partial t}
+        + \rho({\bf v}\cdot\nabla){\bf v}
+
+So the MHD equations can alternatively be written as:
+
+.. math::
+
+    \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0
+
+    \frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
+        = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}
+
+    {\partial {\bf B}\over\partial t}
+            = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}
+
+    \nabla\cdot{\bf B} = 0
 
 Derivation
 ----------
