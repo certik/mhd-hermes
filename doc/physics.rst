@@ -1,8 +1,8 @@
 MHD Equations
 =============
 
-Summary
--------
+Introduction
+------------
 
 The magnetohydrodynamics (MHD) equations are:
 
@@ -19,7 +19,20 @@ The magnetohydrodynamics (MHD) equations are:
 
     \nabla\cdot{\bf B} = 0
 
-assuming :math:`\eta` is constant.
+assuming :math:`\eta` is constant. See the next section for a derivation. We
+can now apply the following identities:
+
+.. math::
+
+    (\nabla\times{\bf B}) \times {\bf B} =
+        ({\bf B}\cdot\nabla){\bf B} - {\bf B}(\nabla\cdot{\bf B}) =
+        ({\bf B}\cdot\nabla){\bf B}
+
+    \nabla\times({\bf v} \times {\bf B}) =
+        ({\bf B}\cdot\nabla){\bf v} - {\bf B}(\nabla\cdot{\bf v})
+        +{\bf v}(\nabla\cdot {\bf B}) - ({\bf v}\cdot\nabla) {\bf B}
+        =
+        \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T)
 
 Derivation
 ----------
