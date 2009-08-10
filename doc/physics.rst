@@ -170,7 +170,8 @@ We solve the following ideal MHD equations (we use
 .. math::
     :label: FEM2a
 
-    {\partial {\bf B}\over\partial t} - \nabla\times({\bf u}\times{\bf B}) = 0
+    {\partial {\bf B}\over\partial t} + ({\bf u}\cdot\nabla){\bf B}
+        - ({\bf B}\cdot\nabla){\bf u} = 0
 
 .. math::
     :label: FEM3a
@@ -194,7 +195,8 @@ linearize the convective terms:
 .. math::
     :label: FEM2b
 
-    {{\bf B}^n-{\bf B}^{n-1}\over\tau} - \nabla\times({\bf u}\times{\bf B}) = 0
+    {{\bf B}^n-{\bf B}^{n-1}\over\tau} + ({\bf u}^{n-1}\cdot\nabla){\bf B}^n
+        - ({\bf B}^{n-1}\cdot\nabla){\bf u}^n = 0
 
 .. math::
     :label: FEM3b
