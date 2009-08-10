@@ -61,11 +61,19 @@
 can now apply the following identities (we use the fact that
 <img class="math" src="images/math/963467245c18de12191607dae93b2fd06b4faa71.png" alt="\nabla\cdot{\bf B}=0"/>):</p>
 <div class="math">
-<p><img src="images/math/e229fa23dfc58c18c70f019dd6644cede192fc08.png" alt="(\nabla\times{\bf B}) \times {\bf B} &amp;=
-    ({\bf B}\cdot\nabla){\bf B} - {\bf B}(\nabla\cdot{\bf B}) =
-    ({\bf B}\cdot\nabla){\bf B}=
-    ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B}) =
-    \nabla\cdot({\bf B}{\bf B}^T)\\
+<p><img src="images/math/77d92dee92a3084617e49979a2abc82c676dcda1.png" alt="\left[(\nabla\times{\bf B}) \times {\bf B}\right]_i =
+    \varepsilon_{ijk}(\nabla\times{\bf B})_j B_k =
+    \varepsilon_{ijk}\varepsilon_{jlm}(\partial_l B_m)B_k =
+    (\delta_{kl}\delta_{im}-\delta_{km}\delta_{il})(\partial_l B_m)B_k =
+    (\partial_k B_i)B_k - (\partial_i B_k)B_k =
+
+=\left[({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2\right]_i
+
+(\nabla\times{\bf B}) \times {\bf B} &amp;=
+    ({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2=
+    ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B})
+        - {1\over2}\nabla|{\bf B}|^2
+    =\nabla\cdot({\bf B}{\bf B}^T) - {1\over2}\nabla|{\bf B}|^2\\
 \nabla\times({\bf v} \times {\bf B}) &amp;=
     ({\bf B}\cdot\nabla){\bf v} - {\bf B}(\nabla\cdot{\bf v})
     +{\bf v}(\nabla\cdot {\bf B}) - ({\bf v}\cdot\nabla) {\bf B}
@@ -80,8 +88,10 @@ can now apply the following identities (we use the fact that
 <div class="math" id="equation-MHD1b">
 <p><span class="eqno">(5)</span><img src="images/math/dde2135ec49c7cd0eabc50e9c3c5253ec242582e.png" alt="\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho {\bf v}) = 0" />
 </div></p><div class="math" id="equation-MHD2b">
-<p><span class="eqno">(6)</span><img src="images/math/901655c4668da05bb36fbb58d16f14fd87136f17.png" alt="\frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
-    = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}" />
+<p><span class="eqno">(6)</span><img src="images/math/1435997b7a0744ee4361255cf4f7a9ebd44ebeb7.png" alt="\frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
+    = -\nabla p +
+    {1\over\mu}\left(\nabla\cdot({\bf B}{\bf B}^T)
+        - {1\over2}\nabla|{\bf B}|^2\right) + \rho {\bf g}" />
 </div></p><div class="math" id="equation-MHD3b">
 <p><span class="eqno">(7)</span><img src="images/math/554ee848d32239e3197678c4b887df0cc84968f5.png" alt="{\partial {\bf B}\over\partial t}
         = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}" />
