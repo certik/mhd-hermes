@@ -61,13 +61,14 @@
 can now apply the following identities (we use the fact that
 <img class="math" src="images/math/963467245c18de12191607dae93b2fd06b4faa71.png" alt="\nabla\cdot{\bf B}=0"/>):</p>
 <div class="math">
-<p><img src="images/math/77d92dee92a3084617e49979a2abc82c676dcda1.png" alt="\left[(\nabla\times{\bf B}) \times {\bf B}\right]_i =
+<p><img src="images/math/16cce62f3e1051af600aee5e8570ed1b52bd6f60.png" alt="\left[(\nabla\times{\bf B}) \times {\bf B}\right]_i =
     \varepsilon_{ijk}(\nabla\times{\bf B})_j B_k =
     \varepsilon_{ijk}\varepsilon_{jlm}(\partial_l B_m)B_k =
     (\delta_{kl}\delta_{im}-\delta_{km}\delta_{il})(\partial_l B_m)B_k =
-    (\partial_k B_i)B_k - (\partial_i B_k)B_k =
 
-=\left[({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2\right]_i
+=(\partial_k B_i)B_k - (\partial_i B_k)B_k
+    =\left[({\bf B}\cdot\nabla){\bf B} -
+    {1\over2}\nabla|{\bf B}|^2\right]_i
 
 (\nabla\times{\bf B}) \times {\bf B} &amp;=
     ({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2=
@@ -97,7 +98,8 @@ can now apply the following identities (we use the fact that
         = \nabla\cdot({\bf B}{\bf v}^T - {\bf v}{\bf B}^T) + \eta\nabla^2{\bf B}" />
 </div></p><div class="math" id="equation-MHD4b">
 <p><span class="eqno">(8)</span><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
-</div></p></div>
+</div></p><p>One can also introduce a new variable <img class="math" src="images/math/8b9684ca9fab311de3acfaaa8e3b1d1c52eae9da.png" alt="p^* = p + {1\over2}\nabla|{\bf B}|^2"/>, that simplifies <a href="#equation-MHD2b">(6)</a> a bit.</p>
+</div>
 <div class="section" id="derivation">
 <h2>Derivation<a class="headerlink" href="#derivation" title="Permalink to this headline">¶</a></h2>
 <p>The above equations can easily be derived. We have the continuity equation:</p>
