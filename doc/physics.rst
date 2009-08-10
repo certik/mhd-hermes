@@ -39,9 +39,10 @@ can now apply the following identities (we use the fact that
         \varepsilon_{ijk}(\nabla\times{\bf B})_j B_k =
         \varepsilon_{ijk}\varepsilon_{jlm}(\partial_l B_m)B_k =
         (\delta_{kl}\delta_{im}-\delta_{km}\delta_{il})(\partial_l B_m)B_k =
-        (\partial_k B_i)B_k - (\partial_i B_k)B_k =
 
-    =\left[({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2\right]_i
+    =(\partial_k B_i)B_k - (\partial_i B_k)B_k
+        =\left[({\bf B}\cdot\nabla){\bf B} -
+        {1\over2}\nabla|{\bf B}|^2\right]_i
 
     (\nabla\times{\bf B}) \times {\bf B} &=
         ({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2=
