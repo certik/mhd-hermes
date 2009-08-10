@@ -159,13 +159,13 @@ Finite Element Formulation
 --------------------------
 
 We solve the following ideal MHD equations (we use
-:math:`p^* = p + {1\over2}\nabla|{\bf B}|^2`):
+:math:`p^* = p + {1\over2}\nabla|{\bf B}|^2`, but we drop the star):
 
 .. math::
     :label: FEM1a
 
     \frac{\partial {\bf u}}{\partial t} + ({\bf u} \cdot \nabla)
-     {\bf u} - ({\bf B}\cdot\nabla){\bf B} + \nabla p^* = 0
+     {\bf u} - ({\bf B}\cdot\nabla){\bf B} + \nabla p = 0
 
 .. math::
     :label: FEM2a
@@ -190,7 +190,7 @@ linearize the convective terms:
     :label: FEM1b
 
     \frac{{\bf u}^n-{\bf u}^{n-1}}{\tau} + ({\bf u}^{n-1} \cdot \nabla)
-     {\bf u}^n - ({\bf B}^{n-1}\cdot\nabla){\bf B}^n + \nabla p^* = 0
+     {\bf u}^n - ({\bf B}^{n-1}\cdot\nabla){\bf B}^n + \nabla p = 0
 
 .. math::
     :label: FEM2b
@@ -211,6 +211,37 @@ linearize the convective terms:
 Hence the weak formulation is:
 
 .. math::
+    :label: FEM1c
 
-    \int_\Omega {u_1 v_1\over\tau}
+    \int_\Omega {u_1 v_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_1 v_1
+        - ({\bf B}^{n-1}\cdot\nabla)B_1 v_1
+        -p {\partial v_1\over\partial x} \,{\rm d}{\bf x} =
+        \int_\Omega {u_1^{n-1} v_1\over\tau}\,{\rm d}{\bf x}
 
+    \int_\Omega {u_2 v_2\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_2 v_2
+        - ({\bf B}^{n-1}\cdot\nabla)B_2 v_2
+        -p {\partial v_2\over\partial y} \,{\rm d}{\bf x} =
+        \int_\Omega {u_2^{n-1} v_2\over\tau}\,{\rm d}{\bf x}
+
+.. math::
+    :label: FEM2c
+
+    \int_\Omega {B_1 C_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_1 C_1
+        - ({\bf B}^{n-1}\cdot\nabla)u_1 C_1 \,{\rm d}{\bf x} =
+        \int_\Omega {B_1^{n-1} C_1\over\tau}\,{\rm d}{\bf x}
+
+    \int_\Omega {B_2 C_2\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_2 C_2
+        - ({\bf B}^{n-1}\cdot\nabla)u_2 C_2 \,{\rm d}{\bf x} =
+        \int_\Omega {B_2^{n-1} C_2\over\tau}\,{\rm d}{\bf x}
+
+.. math::
+    :label: FEM3c
+
+    \int_\Omega {\partial u_1\over\partial x}q + {\partial u_2\over\partial y}q
+        \,{\rm d}{\bf x} = 0
+
+.. math::
+    :label: FEM3d
+
+    \int_\Omega {\partial B_1\over\partial x}q + {\partial B_2\over\partial y}q
+        \,{\rm d}{\bf x} = 0
