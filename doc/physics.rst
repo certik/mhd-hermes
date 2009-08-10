@@ -154,3 +154,30 @@ where we used the Maxwell equation:
 .. math::
 
     \nabla\cdot{\bf B} = 0
+
+Finite Element Formulation
+--------------------------
+
+We solve the following ideal MHD equations (we use
+:math:`p^* = p + {1\over2}\nabla|{\bf B}|^2`):
+
+.. math::
+    :label: FEM1a
+
+    \frac{\partial {\bf u}}{\partial t} + ({\bf u} \cdot \nabla)
+     {\bf u} - ({\bf B}\cdot\nabla){\bf B} + \nabla p^* = 0
+
+.. math::
+    :label: FEM2b
+
+    {\partial {\bf B}\over\partial t} - \nabla\times({\bf u}\times{\bf B}) = 0
+
+.. math::
+    :label: FEM3c
+
+    \nabla\cdot{\bf u} = 0
+
+.. math::
+    :label: FEM4d
+
+    \nabla\cdot{\bf B} = 0
