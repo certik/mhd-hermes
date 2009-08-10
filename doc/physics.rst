@@ -44,10 +44,10 @@ can now apply the following identities (we use the fact that
     =\left[({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2\right]_i
 
     (\nabla\times{\bf B}) \times {\bf B} &=
-        ({\bf B}\cdot\nabla){\bf B} - {\bf B}(\nabla\cdot{\bf B}) =
-        ({\bf B}\cdot\nabla){\bf B}=
-        ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B}) =
-        \nabla\cdot({\bf B}{\bf B}^T)\\
+        ({\bf B}\cdot\nabla){\bf B} - {1\over2}\nabla|{\bf B}|^2=
+        ({\bf B}\cdot\nabla){\bf B} + {\bf B}(\nabla\cdot{\bf B})
+            - {1\over2}\nabla|{\bf B}|^2
+        =\nabla\cdot({\bf B}{\bf B}^T) - {1\over2}\nabla|{\bf B}|^2\\
     \nabla\times({\bf v} \times {\bf B}) &=
         ({\bf B}\cdot\nabla){\bf v} - {\bf B}(\nabla\cdot{\bf v})
         +{\bf v}(\nabla\cdot {\bf B}) - ({\bf v}\cdot\nabla) {\bf B}
@@ -70,7 +70,9 @@ So the MHD equations can alternatively be written as:
     :label: MHD2b
 
     \frac{\partial \rho{\bf v}}{\partial t} + \nabla\cdot(\rho{\bf v}{\bf v}^T)
-        = -\nabla p + {1\over\mu}\nabla\cdot({\bf B}{\bf B}^T) + \rho {\bf g}
+        = -\nabla p + 
+        {1\over\mu}\left(\nabla\cdot({\bf B}{\bf B}^T)
+            - {1\over2}\nabla|{\bf B}|^2\right) + \rho {\bf g}
 
 .. math::
     :label: MHD3b
