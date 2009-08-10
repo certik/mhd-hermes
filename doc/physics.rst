@@ -254,19 +254,17 @@ Now we write it in the block form:
 .. math::
     :nowrap:
 
-    $$\begin{array}{lclclclclclcl}
+    $$\begin{array}{lclclclclcl}
     a_{11}(u_1, v_1) &+& a_{12}(u_2, v_1) &+& a_{13}(p, v_1) &+&
-        a_{14}(B_1, v_1) &+& a_{15}(B_2, v_1) &+&a_{16}(r, v_1) &=& l_1(v_1)\\
+        a_{14}(B_1, v_1) &+& a_{15}(B_2, v_1) &=& l_1(v_1)\\
     a_{21}(u_1, v_2) &+& a_{22}(u_2, v_2) &+& a_{23}(p, v_2) &+&
-        a_{24}(B_1, v_2) &+& a_{25}(B_2, v_2) &+&a_{26}(r, v_2) &=& l_2(v_2)\\
+        a_{24}(B_1, v_2) &+& a_{25}(B_2, v_2) &=& l_2(v_2)\\
     a_{31}(u_1, q) &+& a_{32}(u_2, q) &+& a_{33}(p, q) &+&
-        a_{34}(B_1, q) &+& a_{35}(B_2, q) &+& a_{36}(r, q) &=& l_3(q)\\
+        a_{34}(B_1, q) &+& a_{35}(B_2, q) &=& l_3(q)\\
     a_{41}(u_1, C_1) &+& a_{42}(u_2, C_1) &+& a_{43}(p, C_1) &+&
-        a_{44}(B_1, C_1) &+& a_{45}(B_2, C_1) &+& a_{46}(r, C_1) &=& l_4(C_1)\\
+        a_{44}(B_1, C_1) &+& a_{45}(B_2, C_1) &=& l_4(C_1)\\
     a_{51}(u_1, C_2) &+& a_{52}(u_2, C_2) &+& a_{53}(p, C_2) &+&
-        a_{54}(B_1, C_2) &+& a_{55}(B_2, C_2) &+& a_{56}(r, C_2) &=& l_5(C_2)\\
-    a_{61}(u_1, r) &+& a_{62}(u_2, r) &+& a_{63}(p, r) &+&
-        a_{64}(B_1, r) &+& a_{65}(B_2, r) &+& a_{66}(r, r) &=& l_6(r)
+        a_{54}(B_1, C_2) &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
 so we get the following nonzero forms:
@@ -284,9 +282,7 @@ so we get the following nonzero forms:
     a_{41}(u_1, C_1) &+& 0 &+& 0 &+&
         a_{44}(B_1, C_1) &+& 0 &=& l_4(C_1)\\
     0 &+& a_{52}(u_2, C_2) &+& 0 &+&
-        0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)\\
-    0 &+& 0 &+& 0 &+&
-        a_{64}(B_1, r) &+& a_{65}(B_2, r) &=& 0
+        0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
 .. math::
@@ -294,9 +290,9 @@ so we get the following nonzero forms:
     a_{11}(u, v) = a_{22}(u, v) = a_{44}(u, v) = a_{55}(u, v) &=
         \int_\Omega {u v\over\tau} +
         ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
-    a_{13}(p, v) = -a_{31}(v, p) = -a_{64}(v, p) &= \int_\Omega
+    a_{13}(p, v) = -a_{31}(v, p) &= \int_\Omega
         -p {\partial v\over\partial x} \,{\rm d}{\bf x}\\
-    a_{23}(p, v) = -a_{32}(v, p) = -a_{65}(v, p) &= \int_\Omega
+    a_{23}(p, v) = -a_{32}(v, p) &= \int_\Omega
         -p {\partial v\over\partial y} \,{\rm d}{\bf x}\\
     a_{14}(B, v) = a_{25}(B, v) = a_{41}(v, B) = a_{52}(v, B) &=
         -\int_\Omega ({\bf B}^{n-1}\cdot\nabla)Bv\,{\rm d}{\bf x}\\
