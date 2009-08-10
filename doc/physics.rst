@@ -277,10 +277,26 @@ so we get the following nonzero forms:
         a_{14}(B_1, v_1) &+& 0 &=& l_1(v_1)\\
     0 &+& a_{22}(u_2, v_2) &+& a_{23}(p, v_2) &+&
         0 &+& a_{25}(B_2, v_2) &=& l_2(v_2)\\
-    a_{31}(u_1, q) &+& a_{32}(u_2, q) &+& a_{33}(p, q) &+&
-        a_{34}(B_1, q) &+& a_{35}(B_2, q) &=& l_3(q)\\
+    a_{31}(u_1, q) &+& a_{32}(u_2, q) &+& 0 &+&
+        a_{34}(B_1, q) &+& a_{35}(B_2, q) &=& 0\\
     a_{41}(u_1, C_1) &+& 0 &+& 0 &+&
         a_{44}(B_1, C_1) &+& 0 &=& l_4(C_1)\\
     0 &+& a_{52}(u_2, C_2) &+& 0 &+&
         0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
+
+.. math::
+
+    a_{11}(u, v) = a_{22}(u, v) = a_{44}(u, v) = a_{55}(u, v) &=
+        \int_\Omega {u v\over\tau} +
+        ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
+    a_{13}(p, v) = -a_{31}(v, p) = -a_{34}(v, p) &= \int_\Omega
+        -p {\partial v\over\partial x} \,{\rm d}{\bf x}\\
+    a_{23}(p, v) = -a_{32}(v, p) = -a_{35}(v, p) &= \int_\Omega
+        -p {\partial v\over\partial y} \,{\rm d}{\bf x}\\
+    a_{14}(B, v) = a_{25}(B, v) = a_{41}(v, B) = a_{52}(v, B) &=
+        -\int_\Omega ({\bf B}^{n-1}\cdot\nabla)Bv\,{\rm d}{\bf x}\\
+    l_1(v) &= \int_\Omega {u_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_2(v) &= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
