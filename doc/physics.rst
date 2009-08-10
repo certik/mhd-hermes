@@ -168,16 +168,47 @@ We solve the following ideal MHD equations (we use
      {\bf u} - ({\bf B}\cdot\nabla){\bf B} + \nabla p^* = 0
 
 .. math::
-    :label: FEM2b
+    :label: FEM2a
 
     {\partial {\bf B}\over\partial t} - \nabla\times({\bf u}\times{\bf B}) = 0
 
 .. math::
-    :label: FEM3c
+    :label: FEM3a
 
     \nabla\cdot{\bf u} = 0
 
 .. math::
-    :label: FEM4d
+    :label: FEM4a
 
     \nabla\cdot{\bf B} = 0
+
+We discretize in time by introducing a small time step :math:`\tau` and we also
+linearize the convective terms:
+
+.. math::
+    :label: FEM1b
+
+    \frac{{\bf u}^n-{\bf u}^{n-1}}{\tau} + ({\bf u}^{n-1} \cdot \nabla)
+     {\bf u}^n - ({\bf B}^{n-1}\cdot\nabla){\bf B}^n + \nabla p^* = 0
+
+.. math::
+    :label: FEM2b
+
+    {{\bf B}^n-{\bf B}^{n-1}\over\tau} - \nabla\times({\bf u}\times{\bf B}) = 0
+
+.. math::
+    :label: FEM3b
+
+    \nabla\cdot{\bf u}^n = 0
+
+.. math::
+    :label: FEM4b
+
+    \nabla\cdot{\bf B}^n = 0
+
+Hence the weak formulation is:
+
+.. math::
+
+    \int_\Omega {u_1 v_1\over\tau}
+
