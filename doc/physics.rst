@@ -86,6 +86,8 @@ So the MHD equations can alternatively be written as:
 
     \nabla\cdot{\bf B} = 0
 
+One can also introduce a new variable :math:`p^* = p + {1\over2}\nabla|{\bf B}|^2`, that simplifies :eq:`MHD2b` a bit.
+
 Derivation
 ----------
 
