@@ -140,6 +140,61 @@ get:</p>
 <div class="math">
 <p><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
 </div></p></div>
+<div class="section" id="finite-element-formulation">
+<h2>Finite Element Formulation<a class="headerlink" href="#finite-element-formulation" title="Permalink to this headline">¶</a></h2>
+<p>We solve the following ideal MHD equations (we use
+<img class="math" src="images/math/8b9684ca9fab311de3acfaaa8e3b1d1c52eae9da.png" alt="p^* = p + {1\over2}\nabla|{\bf B}|^2"/>, but we drop the star):</p>
+<div class="math" id="equation-FEM1a">
+<p><span class="eqno">(9)</span><img src="images/math/64f19e19b04253232220fd2cbc5dd2bdd2a22132.png" alt="\frac{\partial {\bf u}}{\partial t} + ({\bf u} \cdot \nabla)
+ {\bf u} - ({\bf B}\cdot\nabla){\bf B} + \nabla p = 0" />
+</div></p><div class="math" id="equation-FEM2a">
+<p><span class="eqno">(10)</span><img src="images/math/a9fbdd2091a716dcdedfe70d3ee662fba6f42df4.png" alt="{\partial {\bf B}\over\partial t} + ({\bf u}\cdot\nabla){\bf B}
+    - ({\bf B}\cdot\nabla){\bf u} = 0" />
+</div></p><div class="math" id="equation-FEM3a">
+<p><span class="eqno">(11)</span><img src="images/math/3b6b9a4b404cb6fec2748abc3fa28026ff12f37f.png" alt="\nabla\cdot{\bf u} = 0" />
+</div></p><div class="math" id="equation-FEM4a">
+<p><span class="eqno">(12)</span><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
+</div></p><p>We discretize in time by introducing a small time step <img class="math" src="images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> and we also
+linearize the convective terms:</p>
+<div class="math" id="equation-FEM1b">
+<p><span class="eqno">(13)</span><img src="images/math/97324e8b48988929bb840c84fb66befa6e697475.png" alt="\frac{{\bf u}^n-{\bf u}^{n-1}}{\tau} + ({\bf u}^{n-1} \cdot \nabla)
+ {\bf u}^n - ({\bf B}^{n-1}\cdot\nabla){\bf B}^n + \nabla p = 0" />
+</div></p><div class="math" id="equation-FEM2b">
+<p><span class="eqno">(14)</span><img src="images/math/a7fd943d109fb2bd7e517a08e17e9eb76bdc2d1d.png" alt="{{\bf B}^n-{\bf B}^{n-1}\over\tau} + ({\bf u}^{n-1}\cdot\nabla){\bf B}^n
+    - ({\bf B}^{n-1}\cdot\nabla){\bf u}^n = 0" />
+</div></p><div class="math" id="equation-FEM3b">
+<p><span class="eqno">(15)</span><img src="images/math/10a27c5192ee1434c09e7698073417453c98b827.png" alt="\nabla\cdot{\bf u}^n = 0" />
+</div></p><div class="math" id="equation-FEM4b">
+<p><span class="eqno">(16)</span><img src="images/math/2277a7d68461bbaf43f73c1ccdc4134b7ca57e81.png" alt="\nabla\cdot{\bf B}^n = 0" />
+</div></p><p>Testing <a href="#equation-FEM1b">(13)</a> by the velocity test functions <img class="math" src="images/math/58f832350c3f1c11eb2f11c94b65e206af154ca8.png" alt="(v_1, v_2)"/>,
+<a href="#equation-FEM2b">(14)</a> by the magnetic field test functions <img class="math" src="images/math/516ce07b5264da9eab122a11ae418cd42633749b.png" alt="(C_1, C_2)"/>,
+<a href="#equation-FEM3b">(15)</a> and <a href="#equation-FEM4b">(16)</a> by the pressure test function <img class="math" src="images/math/0615acc3725de21025457e7d6f7694dab8e2f758.png" alt="q"/>, we obtain
+the following weak formulation:</p>
+<div class="math" id="equation-FEM1c">
+<p><span class="eqno">(17)</span><img src="images/math/f2a09f65e555da9ec2ed25678227c3fe281c8064.png" alt="\int_\Omega {u_1 v_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_1 v_1
+    - ({\bf B}^{n-1}\cdot\nabla)B_1 v_1
+    -p {\partial v_1\over\partial x} \,{\rm d}{\bf x} =
+    \int_\Omega {u_1^{n-1} v_1\over\tau}\,{\rm d}{\bf x}
+
+\int_\Omega {u_2 v_2\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_2 v_2
+    - ({\bf B}^{n-1}\cdot\nabla)B_2 v_2
+    -p {\partial v_2\over\partial y} \,{\rm d}{\bf x} =
+    \int_\Omega {u_2^{n-1} v_2\over\tau}\,{\rm d}{\bf x}" />
+</div></p><div class="math" id="equation-FEM2c">
+<p><span class="eqno">(18)</span><img src="images/math/02de452f7dfdbadccc24c34b2599aaaa3205776a.png" alt="\int_\Omega {B_1 C_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_1 C_1
+    - ({\bf B}^{n-1}\cdot\nabla)u_1 C_1 \,{\rm d}{\bf x} =
+    \int_\Omega {B_1^{n-1} C_1\over\tau}\,{\rm d}{\bf x}
+
+\int_\Omega {B_2 C_2\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_2 C_2
+    - ({\bf B}^{n-1}\cdot\nabla)u_2 C_2 \,{\rm d}{\bf x} =
+    \int_\Omega {B_2^{n-1} C_2\over\tau}\,{\rm d}{\bf x}" />
+</div></p><div class="math" id="equation-FEM3c">
+<p><span class="eqno">(19)</span><img src="images/math/1ddfe4639b99d67e72b34afc6664dd0a7f79de1d.png" alt="\int_\Omega {\partial u_1\over\partial x}q + {\partial u_2\over\partial y}q
+    \,{\rm d}{\bf x} = 0" />
+</div></p><div class="math" id="equation-FEM3d">
+<p><span class="eqno">(20)</span><img src="images/math/7319f57951c412a246b9168da3ee58892eb9faa0.png" alt="\int_\Omega {\partial B_1\over\partial x}q + {\partial B_2\over\partial y}q
+    \,{\rm d}{\bf x} = 0" />
+</div></p></div>
 </div>
 
 
@@ -153,6 +208,7 @@ get:</p>
 <li><a class="reference external" href="">MHD Equations</a><ul>
 <li><a class="reference external" href="#introduction">Introduction</a></li>
 <li><a class="reference external" href="#derivation">Derivation</a></li>
+<li><a class="reference external" href="#finite-element-formulation">Finite Element Formulation</a></li>
 </ul>
 </li>
 </ul>
