@@ -208,7 +208,10 @@ linearize the convective terms:
 
     \nabla\cdot{\bf B}^n = 0
 
-Hence the weak formulation is:
+Testing :eq:`FEM1b` by the velocity test functions :math:`(v_1, v_2)`,
+:eq:`FEM2b` by the magnetic field test functions :math:`(C_1, C_2)`,
+:eq:`FEM3b` and :eq:`FEM4b` by the pressure test function :math:`q`, we obtain
+the following weak formulation:
 
 .. math::
     :label: FEM1c
