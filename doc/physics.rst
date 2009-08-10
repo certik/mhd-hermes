@@ -304,3 +304,19 @@ so we get the following nonzero forms:
     l_2(v) &= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
     l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
     l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
+
+Schematically, the weak formulation equations structure can be visualized by:
+
++----+----+---+---+---+
+| X  |    | A | O |   |
++----+----+---+---+---+
+|    | X  | B |   | O |
++----+----+---+---+---+
+| -A | -B |   |   |   |
++----+----+---+---+---+
+| O  |    |   | X |   |
++----+----+---+---+---+
+|    | O  |   |   | X |
++----+----+---+---+---+
+
+Where ``O``, ``X``, ``A`` and ``B`` are the only 4 distinct forms.
