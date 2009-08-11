@@ -55,13 +55,13 @@ double TIME = 0;
 scalar x_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
     dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
-    return y*exp(0.5*(1-x*x-y*y));
+    return y*exp(0.5*(1-x*x-y*y))+1;
 }
 
 scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
     dy = x*y*exp(0.5*(1-x*x-y*y));
-    return -x*exp(0.5*(1-x*x-y*y));
+    return -x*exp(0.5*(1-x*x-y*y))+1;
 }
 
 double C = 1;
