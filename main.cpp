@@ -83,6 +83,7 @@ scalar xvel_bc_value(int marker, double x, double y) {
 
 // velocities from the previous time step
 Solution xprev, yprev;
+Solution Bx, By;
 
 scalar bilinear_form_sym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
   { return int_u_v(fu, fv, ru, rv) / TAU; }
@@ -97,10 +98,15 @@ scalar bilinear_form_unsym_1_2(RealFunction* fp, RealFunction* fv, RefMap* rp, R
   { return -int_u_dvdy(fp, fv, rp, rv); }
 
 scalar linear_form_0(RealFunction* fv, RefMap* rv)
-  { return int_u_v(&xprev, fv, xprev.get_refmap(), rv) / TAU; }
+{
+    return int_u_v(&xprev, fv, xprev.get_refmap(), rv) / TAU +
+      int_w_nabla_u_v(&Bx, &By, &Bx, fv, Bx.get_refmap(), rv);
+}
 
 scalar linear_form_1(RealFunction* fv, RefMap* rv)
-  { return int_u_v(&yprev, fv, yprev.get_refmap(), rv) / TAU; }
+  { return int_u_v(&yprev, fv, yprev.get_refmap(), rv) / TAU +
+      int_w_nabla_u_v(&Bx, &By, &By, fv, By.get_refmap(), rv);
+      ; }
 
 
 int main(int argc, char* argv[])
@@ -166,6 +172,9 @@ int main(int argc, char* argv[])
   xprev.set_zero(&mesh);
   yprev.set_zero(&mesh);
 
+  Bx.set_zero(&mesh);
+  By.set_zero(&mesh);
+
   // set up weak formulation
   WeakForm wf(3);
   wf.add_biform(0, 0, bilinear_form_sym_0_0_1_1, SYM);
@@ -174,8 +183,8 @@ int main(int argc, char* argv[])
   wf.add_biform(1, 1, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
   wf.add_biform(0, 2, bilinear_form_unsym_0_2, ANTISYM);
   wf.add_biform(1, 2, bilinear_form_unsym_1_2, ANTISYM);
-  wf.add_liform(0, linear_form_0, ANY, 1, &xprev);
-  wf.add_liform(1, linear_form_1, ANY, 1, &yprev);
+  wf.add_liform(0, linear_form_0, ANY, 3, &xprev, &Bx, &By);
+  wf.add_liform(1, linear_form_1, ANY, 3, &yprev, &Bx, &By);
 
   // visualization
   VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
