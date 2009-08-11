@@ -181,8 +181,10 @@ int main(int argc, char* argv[])
   ndofs += press.assign_dofs(ndofs);
 
   // initial BC: xprev and yprev are zero
-  xprev.set_zero(&mesh);
-  yprev.set_zero(&mesh);
+  //xprev.set_zero(&mesh);
+  //yprev.set_zero(&mesh);
+  xprev.set_exact(&mesh, Bx_init);
+  yprev.set_exact(&mesh, By_init);
 
   Bx.set_exact(&mesh, Bx_init);
   By.set_exact(&mesh, By_init);
