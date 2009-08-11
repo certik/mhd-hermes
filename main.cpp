@@ -75,6 +75,10 @@ int yvel_bc_type(int marker) {
   else return BC_ESSENTIAL;
 }
 
+int B_bc_type(int marker) {
+  return BC_NONE;
+}
+
 int press_bc_type(int marker)
   { return BC_NONE; }
 
@@ -95,7 +99,7 @@ scalar xvel_bc_value(int marker, double x, double y) {
 
 // velocities from the previous time step
 Solution xprev, yprev;
-Solution Bx, By;
+Solution Bxprev, Byprev;
 
 scalar bilinear_form_sym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
   { return int_u_v(fu, fv, ru, rv) / TAU; }
@@ -109,16 +113,30 @@ scalar bilinear_form_unsym_0_2(RealFunction* fp, RealFunction* fv, RefMap* rp, R
 scalar bilinear_form_unsym_1_2(RealFunction* fp, RealFunction* fv, RefMap* rp, RefMap* rv)
   { return -int_u_dvdy(fp, fv, rp, rv); }
 
+scalar bilinear_form_sym_0_3(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
+{
+    return -int_w_nabla_u_v(&Bxprev, &Byprev, fu, fv, ru, rv);
+}
+
 scalar linear_form_0(RealFunction* fv, RefMap* rv)
 {
-    return int_u_v(&xprev, fv, xprev.get_refmap(), rv) / TAU +
-      int_w_nabla_u_v(&Bx, &By, &Bx, fv, Bx.get_refmap(), rv);
+    return int_u_v(&xprev, fv, xprev.get_refmap(), rv) / TAU;
 }
 
 scalar linear_form_1(RealFunction* fv, RefMap* rv)
-  { return int_u_v(&yprev, fv, yprev.get_refmap(), rv) / TAU +
-      int_w_nabla_u_v(&Bx, &By, &By, fv, By.get_refmap(), rv);
-      ; }
+{
+    return int_u_v(&yprev, fv, yprev.get_refmap(), rv) / TAU;
+}
+
+scalar linear_form_3(RealFunction* fv, RefMap* rv)
+{
+    return int_u_v(&Bxprev, fv, Bxprev.get_refmap(), rv) / TAU;
+}
+
+scalar linear_form_4(RealFunction* fv, RefMap* rv)
+{
+    return int_u_v(&Byprev, fv, Byprev.get_refmap(), rv) / TAU;
+}
 
 
 int main(int argc, char* argv[])
@@ -162,23 +180,31 @@ int main(int argc, char* argv[])
   H1Space xvel(&mesh, &shapeset_h1);
   H1Space yvel(&mesh, &shapeset_h1);
   L2Space press(&mesh, &shapeset_l2);
+  H1Space Bx(&mesh, &shapeset_h1);
+  H1Space By(&mesh, &shapeset_h1);
 
   // initialize boundary conditions
   xvel.set_bc_types(xvel_bc_type);
   xvel.set_bc_values(xvel_bc_value);
   yvel.set_bc_types(yvel_bc_type);
   press.set_bc_types(press_bc_type);
+  Bx.set_bc_types(B_bc_type);
+  By.set_bc_types(B_bc_type);
 
   // set velocity and pressure polynomial degrees
   xvel.set_uniform_order(P_INIT_VEL);
   yvel.set_uniform_order(P_INIT_VEL);
   press.set_uniform_order(P_INIT_PRESSURE);
+  Bx.set_uniform_order(P_INIT_VEL);
+  By.set_uniform_order(P_INIT_VEL);
 
   // assign degrees of freedom
   int ndofs = 0;
   ndofs += xvel.assign_dofs(ndofs);
   ndofs += yvel.assign_dofs(ndofs);
   ndofs += press.assign_dofs(ndofs);
+  ndofs += Bx.assign_dofs(ndofs);
+  ndofs += By.assign_dofs(ndofs);
 
   // initial BC: xprev and yprev are zero
   //xprev.set_zero(&mesh);
@@ -186,19 +212,27 @@ int main(int argc, char* argv[])
   xprev.set_exact(&mesh, Bx_init);
   yprev.set_exact(&mesh, By_init);
 
-  Bx.set_exact(&mesh, Bx_init);
-  By.set_exact(&mesh, By_init);
+  Bxprev.set_exact(&mesh, Bx_init);
+  Byprev.set_exact(&mesh, By_init);
 
   // set up weak formulation
-  WeakForm wf(3);
+  WeakForm wf(5);
   wf.add_biform(0, 0, bilinear_form_sym_0_0_1_1, SYM);
   wf.add_biform(0, 0, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
   wf.add_biform(1, 1, bilinear_form_sym_0_0_1_1, SYM);
   wf.add_biform(1, 1, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(3, 3, bilinear_form_sym_0_0_1_1, SYM);
+  wf.add_biform(3, 3, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(4, 4, bilinear_form_sym_0_0_1_1, SYM);
+  wf.add_biform(4, 4, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
   wf.add_biform(0, 2, bilinear_form_unsym_0_2, ANTISYM);
+  wf.add_biform(0, 3, bilinear_form_sym_0_3, SYM, ANY, 2, &Bxprev, &Byprev);
   wf.add_biform(1, 2, bilinear_form_unsym_1_2, ANTISYM);
-  wf.add_liform(0, linear_form_0, ANY, 3, &xprev, &Bx, &By);
-  wf.add_liform(1, linear_form_1, ANY, 3, &yprev, &Bx, &By);
+  wf.add_biform(1, 4, bilinear_form_sym_0_3, SYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_liform(0, linear_form_0, ANY, 1, &xprev);
+  wf.add_liform(1, linear_form_1, ANY, 1, &yprev);
+  wf.add_liform(3, linear_form_3, ANY, 1, &Bxprev);
+  wf.add_liform(4, linear_form_4, ANY, 1, &Byprev);
 
   // visualization
   VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
@@ -214,8 +248,8 @@ int main(int argc, char* argv[])
   // set up the linear system
   DummySolver umfpack;
   LinSystem sys(&wf, &umfpack);
-  sys.set_spaces(3, &xvel, &yvel, &press);
-  sys.set_pss(3, &pss_h1, &pss_h1, &pss_l2);
+  sys.set_spaces(5, &xvel, &yvel, &press, &Bx, &By);
+  sys.set_pss(5, &pss_h1, &pss_h1, &pss_l2, &pss_h1, &pss_h1);
 
 
   cmd("from hermes2d import Linearizer, Vectorizer");
@@ -237,6 +271,8 @@ int main(int argc, char* argv[])
     ndofs += xvel.assign_dofs(ndofs);
     ndofs += yvel.assign_dofs(ndofs);
     ndofs += press.assign_dofs(ndofs);
+    ndofs += Bx.assign_dofs(ndofs);
+    ndofs += By.assign_dofs(ndofs);
 
     // assemble and solve
     Solution xsln, ysln, psln;
@@ -282,7 +318,7 @@ int main(int argc, char* argv[])
     sprintf(title, "Velocity, time %g", TIME);
     vview.set_title(title);
     vview.show(&xprev, &yprev, EPS_LOW);
-    Bview.show(&Bx, &By, EPS_LOW);
+    Bview.show(&Bxprev, &Byprev, EPS_LOW);
     sprintf(title, "Pressure, time %g", TIME);
     pview.set_title(title);
     pview.show(&psln);
