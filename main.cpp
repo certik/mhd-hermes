@@ -36,6 +36,7 @@ const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increas
 const double TAU = 0.5;              // time step
 const double FINAL_TIME = 3000.0;    // length of time interval
 const int P_INIT_VEL = 2;            // polynomial degree for velocity components
+const int P_INIT_B = 2;            // polynomial degree for velocity components
 const int P_INIT_PRESSURE = 1;       // polynomial degree for pressure
                                      // Note: P_INIT_VEL should always be greater than
                                      // P_INIT_PRESSURE because of the inf-sup condition
@@ -55,13 +56,13 @@ double TIME = 0;
 scalar x_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
     dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
-    return y*exp(0.5*(1-x*x-y*y))+1;
+    return y*exp(0.5*(1-x*x-y*y))+0.1;
 }
 
 scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
     dy = x*y*exp(0.5*(1-x*x-y*y));
-    return -x*exp(0.5*(1-x*x-y*y))+1;
+    return -x*exp(0.5*(1-x*x-y*y))+0.1;
 }
 
 double C = 1;
@@ -196,8 +197,8 @@ int main(int argc, char* argv[])
   xvel.set_uniform_order(P_INIT_VEL);
   yvel.set_uniform_order(P_INIT_VEL);
   press.set_uniform_order(P_INIT_PRESSURE);
-  Bx.set_uniform_order(P_INIT_VEL);
-  By.set_uniform_order(P_INIT_VEL);
+  Bx.set_uniform_order(P_INIT_B);
+  By.set_uniform_order(P_INIT_B);
 
   // assign degrees of freedom
   int ndofs = 0;
