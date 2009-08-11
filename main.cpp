@@ -200,6 +200,7 @@ int main(int argc, char* argv[])
 
   // visualization
   VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
+  VectorView Bview("B", 0, 0, 1500, 470);
   ScalarView pview("pressure [Pa]", 0, 530, 1500, 470);
   vview.set_min_max_range(0, 1.6);
   pview.show_mesh(false);
@@ -279,6 +280,7 @@ int main(int argc, char* argv[])
     sprintf(title, "Velocity, time %g", TIME);
     vview.set_title(title);
     vview.show(&xprev, &yprev, EPS_LOW);
+    Bview.show(&Bx, &By, EPS_LOW);
     sprintf(title, "Pressure, time %g", TIME);
     pview.set_title(title);
     pview.show(&psln);
