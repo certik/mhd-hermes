@@ -62,7 +62,7 @@ scalar x_init(double x, double y, scalar& dx, scalar& dy) {
 scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
     dy = x*y*exp(0.5*(1-x*x-y*y));
-    return -x*exp(0.5*(1-x*x-y*y))+0.1;
+    return -x*exp(0.5*(1-x*x-y*y))+0.0;
 }
 
 double C = 0.5;
@@ -85,15 +85,29 @@ scalar By_init(double x, double y, scalar& dx, scalar& dy) {
 
 // definition of boundary conditions
 int xvel_bc_type(int marker) {
-  return BC_NONE;
+    if (marker == marker_right)
+        return BC_NONE;
+    else
+        return BC_ESSENTIAL;
 }
 
 int yvel_bc_type(int marker) {
-  return BC_NONE;
+    if (marker == marker_right)
+        return BC_NONE;
+    else
+        return BC_ESSENTIAL;
 }
 
+scalar xvel_bc_value(int marker, double x, double y) {
+    if (marker == marker_left)
+        return 0.1;
+    else
+        return 0;
+}
+
+
 int B_bc_type(int marker) {
-  return BC_NONE;
+  return BC_ESSENTIAL;
 }
 
 int press_bc_type(int marker) {
@@ -188,6 +202,7 @@ int main(int argc, char* argv[])
 
   // initialize boundary conditions
   xvel.set_bc_types(xvel_bc_type);
+  xvel.set_bc_values(xvel_bc_value);
   yvel.set_bc_types(yvel_bc_type);
   press.set_bc_types(press_bc_type);
   Bx.set_bc_types(B_bc_type);
