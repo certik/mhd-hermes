@@ -52,16 +52,34 @@ int marker_obstacle = 5;
 // global time variable
 double TIME = 0;
 
-scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
+scalar x_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
     dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
     return y*exp(0.5*(1-x*x-y*y));
 }
 
-scalar By_init(double x, double y, scalar& dx, scalar& dy) {
+scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
     dy = x*y*exp(0.5*(1-x*x-y*y));
     return -x*exp(0.5*(1-x*x-y*y));
+}
+
+double C = 0.0001;
+
+scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
+    dx = -x*y*exp(0.5*(1-x*x-y*y));
+    dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
+    dx *= C;
+    dy *= C;
+    return C*y*exp(0.5*(1-x*x-y*y));
+}
+
+scalar By_init(double x, double y, scalar& dx, scalar& dy) {
+    dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
+    dy = x*y*exp(0.5*(1-x*x-y*y));
+    dx *= C;
+    dy *= C;
+    return -C*x*exp(0.5*(1-x*x-y*y));
 }
 
 // definition of boundary conditions
@@ -190,13 +208,13 @@ int main(int argc, char* argv[])
   ndofs += By.assign_dofs(ndofs);
 
   // initial BC
-  xprev.set_exact(&mesh, Bx_init);
-  yprev.set_exact(&mesh, By_init);
+  xprev.set_exact(&mesh, x_init);
+  yprev.set_exact(&mesh, y_init);
 
-  //Bxprev.set_exact(&mesh, Bx_init);
-  //Byprev.set_exact(&mesh, By_init);
-  Bxprev.set_zero(&mesh);
-  Byprev.set_zero(&mesh);
+  Bxprev.set_exact(&mesh, Bx_init);
+  Byprev.set_exact(&mesh, By_init);
+  //Bxprev.set_zero(&mesh);
+  //Byprev.set_zero(&mesh);
 
   // set up weak formulation
   WeakForm wf(5);
