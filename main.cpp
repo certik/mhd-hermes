@@ -134,39 +134,39 @@ int press_bc_type(int marker) {
 Solution xprev, yprev;
 Solution Bxprev, Byprev;
 
-scalar bilinear_form_sym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
+scalar A_sym(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
   { return int_u_v(fu, fv, ru, rv) / TAU; }
 
-scalar bilinear_form_unsym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
+scalar A_unsym(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
   { return int_w_nabla_u_v(&xprev, &yprev, fu, fv, ru, rv); }
 
-scalar bilinear_form_unsym_0_2(RealFunction* fp, RealFunction* fv, RefMap* rp, RefMap* rv)
+scalar X(RealFunction* fp, RealFunction* fv, RefMap* rp, RefMap* rv)
   { return -int_u_dvdx(fp, fv, rp, rv); }
 
-scalar bilinear_form_unsym_1_2(RealFunction* fp, RealFunction* fv, RefMap* rp, RefMap* rv)
+scalar Y(RealFunction* fp, RealFunction* fv, RefMap* rp, RefMap* rv)
   { return -int_u_dvdy(fp, fv, rp, rv); }
 
-scalar bilinear_form_sym_0_3(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
+scalar B(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
 {
     return -int_w_nabla_u_v(&Bxprev, &Byprev, fu, fv, ru, rv);
 }
 
-scalar linear_form_0(RealFunction* fv, RefMap* rv)
+scalar l1(RealFunction* fv, RefMap* rv)
 {
     return int_u_v(&xprev, fv, xprev.get_refmap(), rv) / TAU;
 }
 
-scalar linear_form_1(RealFunction* fv, RefMap* rv)
+scalar l2(RealFunction* fv, RefMap* rv)
 {
     return int_u_v(&yprev, fv, yprev.get_refmap(), rv) / TAU;
 }
 
-scalar linear_form_3(RealFunction* fv, RefMap* rv)
+scalar l4(RealFunction* fv, RefMap* rv)
 {
     return int_u_v(&Bxprev, fv, Bxprev.get_refmap(), rv) / TAU;
 }
 
-scalar linear_form_4(RealFunction* fv, RefMap* rv)
+scalar l5(RealFunction* fv, RefMap* rv)
 {
     return int_u_v(&Byprev, fv, Byprev.get_refmap(), rv) / TAU;
 }
@@ -250,24 +250,24 @@ int main(int argc, char* argv[])
 
   // set up weak formulation
   WeakForm wf(5);
-  wf.add_biform(0, 0, bilinear_form_sym_0_0_1_1, SYM);
-  wf.add_biform(0, 0, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
-  wf.add_biform(1, 1, bilinear_form_sym_0_0_1_1, SYM);
-  wf.add_biform(1, 1, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
-  wf.add_biform(3, 3, bilinear_form_sym_0_0_1_1, SYM);
-  wf.add_biform(3, 3, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
-  wf.add_biform(4, 4, bilinear_form_sym_0_0_1_1, SYM);
-  wf.add_biform(4, 4, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
-  wf.add_biform(0, 2, bilinear_form_unsym_0_2, ANTISYM);
-  wf.add_biform(0, 3, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
-  wf.add_biform(3, 0, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
-  wf.add_biform(1, 2, bilinear_form_unsym_1_2, ANTISYM);
-  wf.add_biform(1, 4, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
-  wf.add_biform(4, 1, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
-  wf.add_liform(0, linear_form_0, ANY, 1, &xprev);
-  wf.add_liform(1, linear_form_1, ANY, 1, &yprev);
-  wf.add_liform(3, linear_form_3, ANY, 1, &Bxprev);
-  wf.add_liform(4, linear_form_4, ANY, 1, &Byprev);
+  wf.add_biform(0, 0, A_sym, SYM);
+  wf.add_biform(0, 0, A_unsym, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(1, 1, A_sym, SYM);
+  wf.add_biform(1, 1, A_unsym, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(3, 3, A_sym, SYM);
+  wf.add_biform(3, 3, A_unsym, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(4, 4, A_sym, SYM);
+  wf.add_biform(4, 4, A_unsym, UNSYM, ANY, 2, &xprev, &yprev);
+  wf.add_biform(0, 2, X, ANTISYM);
+  wf.add_biform(0, 3, B, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(3, 0, B, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(1, 2, Y, ANTISYM);
+  wf.add_biform(1, 4, B, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(4, 1, B, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_liform(0, l1, ANY, 1, &xprev);
+  wf.add_liform(1, l2, ANY, 1, &yprev);
+  wf.add_liform(3, l4, ANY, 1, &Bxprev);
+  wf.add_liform(4, l5, ANY, 1, &Byprev);
 
   // visualization
   VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
@@ -327,13 +327,13 @@ int main(int argc, char* argv[])
     insert_double_array("rhs", rhs, n);
     cmd("A = csc_matrix((Ax, Ai, Ap))");
     cmd("x = spsolve(A, rhs)");
-    double *X;
-    array_double_numpy2c_inplace(get_symbol("x"), &X, &n);
-    xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), X);
-    ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), X);
-    psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), X);
-    Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), X);
-    Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), X);
+    double *_X;
+    array_double_numpy2c_inplace(get_symbol("x"), &_X, &n);
+    xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), _X);
+    ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), _X);
+    psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), _X);
+    Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), _X);
+    Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), _X);
     insert_object("xsln", Solution_from_C(&xsln));
     insert_object("ysln", Solution_from_C(&ysln));
     insert_object("psln", Solution_from_C(&psln));
