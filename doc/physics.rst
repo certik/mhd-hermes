@@ -183,6 +183,16 @@ We solve the following ideal MHD equations (we use
 
     \nabla\cdot{\bf B} = 0
 
+If the equation :eq:`FEM4a` is satisfied initially, then it is
+satisfied all the time, as can be easily proved by applying a divergence to
+the Maxwell equation
+:math:`{\partial {\bf B}\over\partial t} = -\nabla\times{\bf E}` and we get
+:math:`{\partial \over\partial t}(\nabla\cdot{\bf B}) = 0`, so
+:math:`\nabla\cdot{\bf B}` is constant, independent of time. As a consequence,
+we are essentially only solving equations :eq:`FEM1a`, :eq:`FEM2a` and
+:eq:`FEM3a`, which consist of 5 equations for 5 unknowns
+(components of :math:`{\bf u}`, :math:`p` and :math:`{\bf B}`).
+
 We discretize in time by introducing a small time step :math:`\tau` and we also
 linearize the convective terms:
 
@@ -203,15 +213,9 @@ linearize the convective terms:
 
     \nabla\cdot{\bf u}^n = 0
 
-.. math::
-    :label: FEM4b
-
-    \nabla\cdot{\bf B}^n = 0
-
 Testing :eq:`FEM1b` by the test functions :math:`(v_1, v_2)`, :eq:`FEM2b` by
-the functions :math:`(C_1, C_2)`, :eq:`FEM3b` by the test function :math:`q`
-and :eq:`FEM4b` by the test function :math:`r`, we obtain the
-following weak formulation:
+the functions :math:`(C_1, C_2)` and :eq:`FEM3b` by the test function
+:math:`q`, we obtain the following weak formulation:
 
 .. math::
     :label: FEM1c
@@ -243,14 +247,8 @@ following weak formulation:
     \int_\Omega {\partial u_1\over\partial x}q + {\partial u_2\over\partial y}q
         \,{\rm d}{\bf x} = 0
 
-.. math::
-    :label: FEM3d
-
-    \int_\Omega {\partial B_1\over\partial x}r + {\partial B_2\over\partial y}r
-        \,{\rm d}{\bf x} = 0
-
 To better understand the structure of these equations, we write it using
-bilinear and linear forms, as well as we take into account the symmetries of
+bilinear and linear forms, as well as take into account the symmetries of
 the forms. Then we get a particularly simple structure:
 
 .. math::
@@ -278,7 +276,8 @@ where:
     l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
     l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
 
-Schematically we can visualize the structure by:
+E.g. there are only 4 distinct bilinear forms. Schematically we can visualize
+the structure by:
 
 +----+----+----+----+----+
 | A  |    | -X | -B |    |
