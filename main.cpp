@@ -33,7 +33,7 @@
 const double VEL_INLET = 2;        // inlet velocity (reached after STARTUP_TIME)
 const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increases gradually
                                      // from 0 to VEL_INLET, then it stays constant
-const double TAU = 0.05;              // time step
+const double TAU = 0.005;              // time step
 const double FINAL_TIME = 2.0;    // length of time interval
 const int P_INIT_VEL = 2;            // polynomial degree for velocity components
 const int P_INIT_B = 2;            // polynomial degree for velocity components
