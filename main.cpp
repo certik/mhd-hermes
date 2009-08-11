@@ -65,7 +65,7 @@ scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     return -x*exp(0.5*(1-x*x-y*y))+0.0;
 }
 
-double C = 0.5;
+double C = 0.8;
 
 scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
