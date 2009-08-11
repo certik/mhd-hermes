@@ -275,7 +275,7 @@ int main(int argc, char* argv[])
     ndofs += By.assign_dofs(ndofs);
 
     // assemble and solve
-    Solution xsln, ysln, psln;
+    Solution xsln, ysln, psln, Bxsln, Bysln;
     psln.set_zero(&mesh);
     sys.assemble();
     //sys.solve(3, &xsln, &ysln, &psln);
@@ -297,6 +297,8 @@ int main(int argc, char* argv[])
     xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), X);
     ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), X);
     psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), X);
+    Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), X);
+    Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), X);
     insert_object("xsln", Solution_from_C(&xsln));
     insert_object("ysln", Solution_from_C(&ysln));
     insert_object("psln", Solution_from_C(&psln));
@@ -325,6 +327,9 @@ int main(int argc, char* argv[])
 
     xprev = xsln;
     yprev = ysln;
+
+    Bxprev = Bxsln;
+    Byprev = Bysln;
   }
 
   //View::wait();
