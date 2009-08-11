@@ -186,7 +186,8 @@ We solve the following ideal MHD equations (we use
 If the equation :eq:`FEM4a` is satisfied initially, then it is
 satisfied all the time, as can be easily proved by applying a divergence to
 the Maxwell equation
-:math:`{\partial {\bf B}\over\partial t} = -\nabla\times{\bf E}` and we get
+:math:`{\partial {\bf B}\over\partial t} = -\nabla\times{\bf E}` (or the
+equation :eq:`FEM2a`, resp. :eq:`MHD3`) and we get
 :math:`{\partial \over\partial t}(\nabla\cdot{\bf B}) = 0`, so
 :math:`\nabla\cdot{\bf B}` is constant, independent of time. As a consequence,
 we are essentially only solving equations :eq:`FEM1a`, :eq:`FEM2a` and
