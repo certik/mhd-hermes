@@ -24,11 +24,11 @@ parser.add_option("--vtk", action="store_true", dest="vtk",
 parser.add_option("--keep", "-k", action="store_true", dest="keep_output",
         default=False, help="Keep the output directory (e.g. don't delete it)")
 options, args = parser.parse_args()
-if not options.life and not options.vtk:
-    parser.print_help()
-    sys.exit()
-if not options.keep_output:
-    os.system("rm -r output")
+#if not options.life and not options.vtk:
+#    parser.print_help()
+#    sys.exit()
+#if not options.keep_output:
+#    os.system("rm -r output")
 
 
 

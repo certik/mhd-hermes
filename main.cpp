@@ -33,7 +33,7 @@
 const double VEL_INLET = 1.0;        // inlet velocity (reached after STARTUP_TIME)
 const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increases gradually
                                      // from 0 to VEL_INLET, then it stays constant
-const double TAU = 0.5;              // time step
+const double TAU = 0.1;              // time step
 const double FINAL_TIME = 3000.0;    // length of time interval
 const int P_INIT_VEL = 2;            // polynomial degree for velocity components
 const int P_INIT_B = 2;            // polynomial degree for velocity components
@@ -65,7 +65,7 @@ scalar y_init(double x, double y, scalar& dx, scalar& dy) {
     return -x*exp(0.5*(1-x*x-y*y))+0.1;
 }
 
-double C = 1;
+double C = 0.5;
 
 scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
@@ -306,6 +306,7 @@ int main(int argc, char* argv[])
     insert_object("xsln", Solution_from_C(&xsln));
     insert_object("ysln", Solution_from_C(&ysln));
     insert_object("psln", Solution_from_C(&psln));
+    /*
     cmd("l = Linearizer()");
     cmd("l.process_solution(psln)");
     cmd("vert = l.get_vertices()");
@@ -317,6 +318,7 @@ int main(int argc, char* argv[])
     cmd("v_vert = v.get_vertices()");
     cmd("v_triangles = v.get_triangles()");
     cmd("utils.plot_vec(v_vert, v_triangles)");
+    */
 
     //cmd("import IPython; IPython.ipapi.set_trace()");
 
