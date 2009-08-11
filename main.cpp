@@ -30,7 +30,7 @@
 // The following parameters can be played with:
 
 //const double RE = 1000.0;            // Reynolds number
-const double VEL_INLET = 1.0;        // inlet velocity (reached after STARTUP_TIME)
+const double VEL_INLET = 0.1;        // inlet velocity (reached after STARTUP_TIME)
 const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increases gradually
                                      // from 0 to VEL_INLET, then it stays constant
 const double TAU = 0.5;              // time step
@@ -56,7 +56,7 @@ double TIME = 0;
 scalar x_init(double x, double y, scalar& dx, scalar& dy) {
     dx = -x*y*exp(0.5*(1-x*x-y*y));
     dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
-    return y*exp(0.5*(1-x*x-y*y))+0.1;
+    return y*exp(0.5*(1-x*x-y*y))+0.0;
 }
 
 scalar y_init(double x, double y, scalar& dx, scalar& dy) {
@@ -99,9 +99,10 @@ int yvel_bc_type(int marker) {
 }
 
 scalar xvel_bc_value(int marker, double x, double y) {
-    if (marker == marker_left)
-        return 0.1;
-    else
+    if (marker == marker_left) {
+        double val_y = VEL_INLET * (H*H/4.-y*y) / (H/2.)/(H/2.);
+        return val_y;
+    } else
         return 0;
 }
 
