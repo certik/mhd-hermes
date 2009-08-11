@@ -259,7 +259,7 @@ the forms. Then we get a particularly simple structure:
     $$\begin{array}{lclclclclcl}
     +A(u_1, v_1) &&  && -X(p, v_1) && -B(B_1, v_1) &&  &=& l_1(v_1)\\
       && +A(u_2, v_2) && -Y(p, v_2) &&  && -B(B_2, v_2) &=& l_2(v_2)\\
-    +X(q, u1) && +Y(q, u_2) &&  &&  &&  &=& 0\\
+    +X(q, u_1) && +Y(q, u_2) &&  &&  &&  &=& 0\\
     -B(u_1, C_1) &&  &&  && +A(B_1, C_1) &&  &=& l_4(C_1)\\
      && -B(u_2, C_2) &&  &&  && +A(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
@@ -292,7 +292,7 @@ Schematically we can visualize the structure by:
 |    | -B |    |    | A  |
 +----+----+----+----+----+
 
-Now we write it in the block form:
+In order to solve it with Hermes, we first need to write it in the block form:
 
 .. math::
     :nowrap:
@@ -310,7 +310,7 @@ Now we write it in the block form:
         a_{54}(B_1, C_2) &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
-so we get the following nonzero forms:
+comparing to the above, we get the following nonzero forms:
 
 .. math::
     :nowrap:
@@ -328,20 +328,21 @@ so we get the following nonzero forms:
         0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
+where:
 
 .. math::
 
-    a_{11}(u, v) = a_{22}(u, v) = a_{44}(u, v) = a_{55}(u, v) &=
-        \int_\Omega {u v\over\tau} +
-        ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
-    a_{13}(p, v) = -a_{31}(v, p) &= \int_\Omega
-        -p {\partial v\over\partial x} \,{\rm d}{\bf x}\\
-    a_{23}(p, v) = -a_{32}(v, p) &= \int_\Omega
-        -p {\partial v\over\partial y} \,{\rm d}{\bf x}\\
-    a_{14}(B, v) = a_{25}(B, v) = a_{41}(v, B) = a_{52}(v, B) &=
-        -\int_\Omega ({\bf B}^{n-1}\cdot\nabla)Bv\,{\rm d}{\bf x}\\
-    l_1(v) &= \int_\Omega {u_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-    l_2(v) &= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-    l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-    l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
+    a_{11}(u_1, v_1) &= A(u_1, v_1)\\
+    a_{22}(u_2, v_2) &= A(u_2, v_2)\\
+    a_{44}(B_1, C_1) &= A(B_1, C_1)\\
+    a_{55}(B_2, C_1) &= A(B_2, C_2)\\
+    a_{13}(p, v_1) &= -X(p, v_1)\\
+    a_{31}(u_1, q) &= X(q, u_1)\\
+    a_{23}(p, v_2) &= -Y(p, v_2)\\
+    a_{32}(u_2, q) &= Y(q, u_2)\\
+    a_{14}(B_1, v_1) &= -B(B_1, v_1)\\
+    a_{41}(u_1, C_1) &= -B(u_1, C_1)\\
+    a_{25}(B_2, v_2) &= -B(B_2, v_2)\\
+    a_{52}(u_2, C_2) &= -B(u_2, C_2)
 
+and :math:`l1`, ..., :math:`l5` are the same as above.
