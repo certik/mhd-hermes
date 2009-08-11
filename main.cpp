@@ -227,9 +227,11 @@ int main(int argc, char* argv[])
   wf.add_biform(4, 4, bilinear_form_sym_0_0_1_1, SYM);
   wf.add_biform(4, 4, bilinear_form_unsym_0_0_1_1, UNSYM, ANY, 2, &xprev, &yprev);
   wf.add_biform(0, 2, bilinear_form_unsym_0_2, ANTISYM);
-  wf.add_biform(0, 3, bilinear_form_sym_0_3, SYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(0, 3, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(3, 0, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
   wf.add_biform(1, 2, bilinear_form_unsym_1_2, ANTISYM);
-  wf.add_biform(1, 4, bilinear_form_sym_0_3, SYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(1, 4, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
+  wf.add_biform(4, 1, bilinear_form_sym_0_3, UNSYM, ANY, 2, &Bxprev, &Byprev);
   wf.add_liform(0, linear_form_0, ANY, 1, &xprev);
   wf.add_liform(1, linear_form_1, ANY, 1, &yprev);
   wf.add_liform(3, linear_form_3, ANY, 1, &Bxprev);
