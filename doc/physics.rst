@@ -285,6 +285,19 @@ so we get the following nonzero forms:
         0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
+and by exploiting the symmetry, we get:
+
+.. math::
+    :nowrap:
+
+    $$\begin{array}{lclclclclcl}
+    +A(u_1, v_1) &&  && -X(p, v_1) && -B(B_1, v_1) &&  &=& l_1(v_1)\\
+      && +A(u_2, v_2) && -Y(p, v_2) &&  && -B(B_2, v_2) &=& l_2(v_2)\\
+    +X(q, u1) && +Y(q, u_2) &&  &&  &&  &=& 0\\
+    -B(u_1, C_1) &&  &&  && +A(B_1, C_1) &&  &=& l_4(C_1)\\
+     && -B(u_2, C_2) &&  &&  && +A(B_2, C_2) &=& l_5(C_2)
+    \end{array}$$
+
 .. math::
 
     a_{11}(u, v) = a_{22}(u, v) = a_{44}(u, v) = a_{55}(u, v) &=
