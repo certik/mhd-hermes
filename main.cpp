@@ -53,11 +53,15 @@ int marker_obstacle = 5;
 double TIME = 0;
 
 scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
-  return 1;
+    dx = -x*y*exp(0.5*(1-x*x-y*y));
+    dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
+    return y*exp(0.5*(1-x*x-y*y));
 }
 
 scalar By_init(double x, double y, scalar& dx, scalar& dy) {
-  return 1;
+    dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
+    dy = x*y*exp(0.5*(1-x*x-y*y));
+    return -x*exp(0.5*(1-x*x-y*y));
 }
 
 // definition of boundary conditions
