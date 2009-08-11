@@ -154,7 +154,16 @@ get:</p>
 <p><span class="eqno">(11)</span><img src="images/math/3b6b9a4b404cb6fec2748abc3fa28026ff12f37f.png" alt="\nabla\cdot{\bf u} = 0" />
 </div></p><div class="math" id="equation-FEM4a">
 <p><span class="eqno">(12)</span><img src="images/math/5d8fcf1dc62cd0ee87f05c4da8be245cd9d631b6.png" alt="\nabla\cdot{\bf B} = 0" />
-</div></p><p>We discretize in time by introducing a small time step <img class="math" src="images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> and we also
+</div></p><p>If the equation <a href="#equation-FEM4a">(12)</a> is satisfied initially, then it is
+satisfied all the time, as can be easily proved by applying a divergence to
+the Maxwell equation
+<img class="math" src="images/math/2d7cb3d2c0457ea3cfdf4593b5a67f3c58bf5a00.png" alt="{\partial {\bf B}\over\partial t} = -\nabla\times{\bf E}"/> and we get
+<img class="math" src="images/math/49a43725b59971c96a8fde5f4a1424e649812632.png" alt="{\partial \over\partial t}(\nabla\cdot{\bf B}) = 0"/>, so
+<img class="math" src="images/math/bf8e0413b3109db05e46509b60a0fa2c6edb7a98.png" alt="\nabla\cdot{\bf B}"/> is constant, independent of time. As a consequence,
+we are essentially only solving equations <a href="#equation-FEM1a">(9)</a>, <a href="#equation-FEM2a">(10)</a> and
+<a href="#equation-FEM3a">(11)</a>, which consist of 5 equations for 5 unknowns
+(components of <img class="math" src="images/math/ba6a7d441154872144d12f6d6b2e84cbe2d98832.png" alt="{\bf u}"/>, <img class="math" src="images/math/36f73fc1312ee0349b3f3a0f3bd9eb5504339011.png" alt="p"/> and <img class="math" src="images/math/e9ba51970da63dba1d7d83e26da50e420ca64544.png" alt="{\bf B}"/>).</p>
+<p>We discretize in time by introducing a small time step <img class="math" src="images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> and we also
 linearize the convective terms:</p>
 <div class="math" id="equation-FEM1b">
 <p><span class="eqno">(13)</span><img src="images/math/97324e8b48988929bb840c84fb66befa6e697475.png" alt="\frac{{\bf u}^n-{\bf u}^{n-1}}{\tau} + ({\bf u}^{n-1} \cdot \nabla)
@@ -164,14 +173,11 @@ linearize the convective terms:</p>
     - ({\bf B}^{n-1}\cdot\nabla){\bf u}^n = 0" />
 </div></p><div class="math" id="equation-FEM3b">
 <p><span class="eqno">(15)</span><img src="images/math/10a27c5192ee1434c09e7698073417453c98b827.png" alt="\nabla\cdot{\bf u}^n = 0" />
-</div></p><div class="math" id="equation-FEM4b">
-<p><span class="eqno">(16)</span><img src="images/math/2277a7d68461bbaf43f73c1ccdc4134b7ca57e81.png" alt="\nabla\cdot{\bf B}^n = 0" />
 </div></p><p>Testing <a href="#equation-FEM1b">(13)</a> by the test functions <img class="math" src="images/math/58f832350c3f1c11eb2f11c94b65e206af154ca8.png" alt="(v_1, v_2)"/>, <a href="#equation-FEM2b">(14)</a> by
-the functions <img class="math" src="images/math/516ce07b5264da9eab122a11ae418cd42633749b.png" alt="(C_1, C_2)"/>, <a href="#equation-FEM3b">(15)</a> by the test function <img class="math" src="images/math/0615acc3725de21025457e7d6f7694dab8e2f758.png" alt="q"/>
-and <a href="#equation-FEM4b">(16)</a> by the test function <img class="math" src="images/math/b55ca7a0aa88ab7d58f4fc035317fdac39b17861.png" alt="r"/>, we obtain the
-following weak formulation:</p>
+the functions <img class="math" src="images/math/516ce07b5264da9eab122a11ae418cd42633749b.png" alt="(C_1, C_2)"/> and <a href="#equation-FEM3b">(15)</a> by the test function
+<img class="math" src="images/math/0615acc3725de21025457e7d6f7694dab8e2f758.png" alt="q"/>, we obtain the following weak formulation:</p>
 <div class="math" id="equation-FEM1c">
-<p><span class="eqno">(17)</span><img src="images/math/f2a09f65e555da9ec2ed25678227c3fe281c8064.png" alt="\int_\Omega {u_1 v_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_1 v_1
+<p><span class="eqno">(16)</span><img src="images/math/f2a09f65e555da9ec2ed25678227c3fe281c8064.png" alt="\int_\Omega {u_1 v_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)u_1 v_1
     - ({\bf B}^{n-1}\cdot\nabla)B_1 v_1
     -p {\partial v_1\over\partial x} \,{\rm d}{\bf x} =
     \int_\Omega {u_1^{n-1} v_1\over\tau}\,{\rm d}{\bf x}
@@ -181,7 +187,7 @@ following weak formulation:</p>
     -p {\partial v_2\over\partial y} \,{\rm d}{\bf x} =
     \int_\Omega {u_2^{n-1} v_2\over\tau}\,{\rm d}{\bf x}" />
 </div></p><div class="math" id="equation-FEM2c">
-<p><span class="eqno">(18)</span><img src="images/math/02de452f7dfdbadccc24c34b2599aaaa3205776a.png" alt="\int_\Omega {B_1 C_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_1 C_1
+<p><span class="eqno">(17)</span><img src="images/math/02de452f7dfdbadccc24c34b2599aaaa3205776a.png" alt="\int_\Omega {B_1 C_1\over\tau} + ({\bf u}^{n-1}\cdot\nabla)B_1 C_1
     - ({\bf B}^{n-1}\cdot\nabla)u_1 C_1 \,{\rm d}{\bf x} =
     \int_\Omega {B_1^{n-1} C_1\over\tau}\,{\rm d}{\bf x}
 
@@ -189,30 +195,90 @@ following weak formulation:</p>
     - ({\bf B}^{n-1}\cdot\nabla)u_2 C_2 \,{\rm d}{\bf x} =
     \int_\Omega {B_2^{n-1} C_2\over\tau}\,{\rm d}{\bf x}" />
 </div></p><div class="math" id="equation-FEM3c">
-<p><span class="eqno">(19)</span><img src="images/math/1ddfe4639b99d67e72b34afc6664dd0a7f79de1d.png" alt="\int_\Omega {\partial u_1\over\partial x}q + {\partial u_2\over\partial y}q
+<p><span class="eqno">(18)</span><img src="images/math/1ddfe4639b99d67e72b34afc6664dd0a7f79de1d.png" alt="\int_\Omega {\partial u_1\over\partial x}q + {\partial u_2\over\partial y}q
     \,{\rm d}{\bf x} = 0" />
-</div></p><div class="math" id="equation-FEM3d">
-<p><span class="eqno">(20)</span><img src="images/math/c9250f8574e4219fff91100ff3c063be652ab325.png" alt="\int_\Omega {\partial B_1\over\partial x}r + {\partial B_2\over\partial y}r
-    \,{\rm d}{\bf x} = 0" />
-</div></p><p>Now we write it in the block form:</p>
+</div></p><p>To better understand the structure of these equations, we write it using
+bilinear and linear forms, as well as take into account the symmetries of
+the forms. Then we get a particularly simple structure:</p>
 <div class="math">
-<p><img src="images/math/6de23c246c8edff569bbff912d67d617b8a76130.png" alt="$$\begin{array}{lclclclclclcl}
-a_{11}(u_1, v_1) &amp;+&amp; a_{12}(u_2, v_1) &amp;+&amp; a_{13}(p, v_1) &amp;+&amp;
-    a_{14}(B_1, v_1) &amp;+&amp; a_{15}(B_2, v_1) &amp;+&amp;a_{16}(r, v_1) &amp;=&amp; l_1(v_1)\\
-a_{21}(u_1, v_2) &amp;+&amp; a_{22}(u_2, v_2) &amp;+&amp; a_{23}(p, v_2) &amp;+&amp;
-    a_{24}(B_1, v_2) &amp;+&amp; a_{25}(B_2, v_2) &amp;+&amp;a_{26}(r, v_2) &amp;=&amp; l_2(v_2)\\
-a_{31}(u_1, q) &amp;+&amp; a_{32}(u_2, q) &amp;+&amp; a_{33}(p, q) &amp;+&amp;
-    a_{34}(B_1, q) &amp;+&amp; a_{35}(B_2, q) &amp;+&amp; a_{36}(r, q) &amp;=&amp; l_3(q)\\
-a_{41}(u_1, C_1) &amp;+&amp; a_{42}(u_2, C_1) &amp;+&amp; a_{43}(p, C_1) &amp;+&amp;
-    a_{44}(B_1, C_1) &amp;+&amp; a_{45}(B_2, C_1) &amp;+&amp; a_{46}(r, C_1) &amp;=&amp; l_4(C_1)\\
-a_{51}(u_1, C_2) &amp;+&amp; a_{52}(u_2, C_2) &amp;+&amp; a_{53}(p, C_2) &amp;+&amp;
-    a_{54}(B_1, C_2) &amp;+&amp; a_{55}(B_2, C_2) &amp;+&amp; a_{56}(r, C_2) &amp;=&amp; l_5(C_2)\\
-a_{61}(u_1, r) &amp;+&amp; a_{62}(u_2, r) &amp;+&amp; a_{63}(p, r) &amp;+&amp;
-    a_{64}(B_1, r) &amp;+&amp; a_{65}(B_2, r) &amp;+&amp; a_{66}(r, r) &amp;=&amp; l_6(r)
+<p><img src="images/math/a243af3dfcbef478f30250d45060d94555a75289.png" alt="$$\begin{array}{lclclclclcl}
++A(u_1, v_1) &amp;&amp;  &amp;&amp; -X(p, v_1) &amp;&amp; -B(B_1, v_1) &amp;&amp;  &amp;=&amp; l_1(v_1)\\
+  &amp;&amp; +A(u_2, v_2) &amp;&amp; -Y(p, v_2) &amp;&amp;  &amp;&amp; -B(B_2, v_2) &amp;=&amp; l_2(v_2)\\
++X(q, u_1) &amp;&amp; +Y(q, u_2) &amp;&amp;  &amp;&amp;  &amp;&amp;  &amp;=&amp; 0\\
+-B(u_1, C_1) &amp;&amp;  &amp;&amp;  &amp;&amp; +A(B_1, C_1) &amp;&amp;  &amp;=&amp; l_4(C_1)\\
+ &amp;&amp; -B(u_2, C_2) &amp;&amp;  &amp;&amp;  &amp;&amp; +A(B_2, C_2) &amp;=&amp; l_5(C_2)
 \end{array}$$" />
-</div></p><p>so we get the following nonzero forms:</p>
+</div></p><p>where:</p>
 <div class="math">
-<p><img src="images/math/ec07027b33ef934c3c41c24942492f3a5d88c2c2.png" alt="$$\begin{array}{lclclclclcl}
+<p><img src="images/math/dd195e0d44b81d421dd6743ba461d4e158a9bf3a.png" alt="A(u, v) &amp;= \int_\Omega {u v\over\tau} +
+    ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
+B(u, v) &amp;= \int_\Omega ({\bf B}^{n-1}\cdot\nabla)uv\,{\rm d}{\bf x}\\
+X(u, v) &amp;= \int_\Omega u {\partial v\over\partial x} \,{\rm d}{\bf x}\\
+Y(u, v) &amp;= \int_\Omega u {\partial v\over\partial y} \,{\rm d}{\bf x}\\
+l_1(v) &amp;= \int_\Omega {u_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+l_2(v) &amp;= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+l_4(v) &amp;= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+l_5(v) &amp;= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}" />
+</div></p><p>E.g. there are only 4 distinct bilinear forms. Schematically we can visualize
+the structure by:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>A</td>
+<td>&nbsp;</td>
+<td>-X</td>
+<td>-B</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>A</td>
+<td>-Y</td>
+<td>&nbsp;</td>
+<td>-B</td>
+</tr>
+<tr><td>X</td>
+<td>Y</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>-B</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>A</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>-B</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<p>In order to solve it with Hermes, we first need to write it in the block form:</p>
+<div class="math">
+<p><img src="images/math/041457aa48a4b795c24fe930ad277c70ba4a61e3.png" alt="$$\begin{array}{lclclclclcl}
+a_{11}(u_1, v_1) &amp;+&amp; a_{12}(u_2, v_1) &amp;+&amp; a_{13}(p, v_1) &amp;+&amp;
+    a_{14}(B_1, v_1) &amp;+&amp; a_{15}(B_2, v_1) &amp;=&amp; l_1(v_1)\\
+a_{21}(u_1, v_2) &amp;+&amp; a_{22}(u_2, v_2) &amp;+&amp; a_{23}(p, v_2) &amp;+&amp;
+    a_{24}(B_1, v_2) &amp;+&amp; a_{25}(B_2, v_2) &amp;=&amp; l_2(v_2)\\
+a_{31}(u_1, q) &amp;+&amp; a_{32}(u_2, q) &amp;+&amp; a_{33}(p, q) &amp;+&amp;
+    a_{34}(B_1, q) &amp;+&amp; a_{35}(B_2, q) &amp;=&amp; l_3(q)\\
+a_{41}(u_1, C_1) &amp;+&amp; a_{42}(u_2, C_1) &amp;+&amp; a_{43}(p, C_1) &amp;+&amp;
+    a_{44}(B_1, C_1) &amp;+&amp; a_{45}(B_2, C_1) &amp;=&amp; l_4(C_1)\\
+a_{51}(u_1, C_2) &amp;+&amp; a_{52}(u_2, C_2) &amp;+&amp; a_{53}(p, C_2) &amp;+&amp;
+    a_{54}(B_1, C_2) &amp;+&amp; a_{55}(B_2, C_2) &amp;=&amp; l_5(C_2)
+\end{array}$$" />
+</div></p><p>comparing to the above, we get the following nonzero forms:</p>
+<div class="math">
+<p><img src="images/math/244fb6f9e617b67065999e040cb4818de8bb75fa.png" alt="$$\begin{array}{lclclclclcl}
 a_{11}(u_1, v_1) &amp;+&amp; 0 &amp;+&amp; a_{13}(p, v_1) &amp;+&amp;
     a_{14}(B_1, v_1) &amp;+&amp; 0 &amp;=&amp; l_1(v_1)\\
 0 &amp;+&amp; a_{22}(u_2, v_2) &amp;+&amp; a_{23}(p, v_2) &amp;+&amp;
@@ -222,25 +288,24 @@ a_{31}(u_1, q) &amp;+&amp; a_{32}(u_2, q) &amp;+&amp; 0 &amp;+&amp;
 a_{41}(u_1, C_1) &amp;+&amp; 0 &amp;+&amp; 0 &amp;+&amp;
     a_{44}(B_1, C_1) &amp;+&amp; 0 &amp;=&amp; l_4(C_1)\\
 0 &amp;+&amp; a_{52}(u_2, C_2) &amp;+&amp; 0 &amp;+&amp;
-    0 &amp;+&amp; a_{55}(B_2, C_2) &amp;=&amp; l_5(C_2)\\
-0 &amp;+&amp; 0 &amp;+&amp; 0 &amp;+&amp;
-    a_{64}(B_1, r) &amp;+&amp; a_{65}(B_2, r) &amp;=&amp; 0
+    0 &amp;+&amp; a_{55}(B_2, C_2) &amp;=&amp; l_5(C_2)
 \end{array}$$" />
-</div></p><div class="math">
-<p><img src="images/math/c47442045322b70a946f7a47cf5875d71db2e61e.png" alt="a_{11}(u, v) = a_{22}(u, v) = a_{44}(u, v) = a_{55}(u, v) &amp;=
-    \int_\Omega {u v\over\tau} +
-    ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
-a_{13}(p, v) = -a_{31}(v, p) = -a_{64}(v, p) &amp;= \int_\Omega
-    -p {\partial v\over\partial x} \,{\rm d}{\bf x}\\
-a_{23}(p, v) = -a_{32}(v, p) = -a_{65}(v, p) &amp;= \int_\Omega
-    -p {\partial v\over\partial y} \,{\rm d}{\bf x}\\
-a_{14}(B, v) = a_{25}(B, v) = a_{41}(v, B) = a_{52}(v, B) &amp;=
-    -\int_\Omega ({\bf B}^{n-1}\cdot\nabla)Bv\,{\rm d}{\bf x}\\
-l_1(v) &amp;= \int_\Omega {u_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-l_2(v) &amp;= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-l_4(v) &amp;= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
-l_5(v) &amp;= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}" />
-</div></p></div>
+</div></p><p>where:</p>
+<div class="math">
+<p><img src="images/math/3559944c4dfccaca1b4281509acb497cb1fc42b4.png" alt="a_{11}(u_1, v_1) &amp;= A(u_1, v_1)\\
+a_{22}(u_2, v_2) &amp;= A(u_2, v_2)\\
+a_{44}(B_1, C_1) &amp;= A(B_1, C_1)\\
+a_{55}(B_2, C_1) &amp;= A(B_2, C_2)\\
+a_{13}(p, v_1) &amp;= -X(p, v_1)\\
+a_{31}(u_1, q) &amp;= X(q, u_1)\\
+a_{23}(p, v_2) &amp;= -Y(p, v_2)\\
+a_{32}(u_2, q) &amp;= Y(q, u_2)\\
+a_{14}(B_1, v_1) &amp;= -B(B_1, v_1)\\
+a_{41}(u_1, C_1) &amp;= -B(u_1, C_1)\\
+a_{25}(B_2, v_2) &amp;= -B(B_2, v_2)\\
+a_{52}(u_2, C_2) &amp;= -B(u_2, C_2)" />
+</div></p><p>and <img class="math" src="images/math/d89a5fe07fe3854a174b684785a2d0eb36f2b232.png" alt="l1"/>, ..., <img class="math" src="images/math/b12b902c1edf1e9142cc8d1ff7193f43540b47d0.png" alt="l5"/> are the same as above.</p>
+</div>
 </div>
 
 
