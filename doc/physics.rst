@@ -249,6 +249,49 @@ following weak formulation:
     \int_\Omega {\partial B_1\over\partial x}r + {\partial B_2\over\partial y}r
         \,{\rm d}{\bf x} = 0
 
+To better understand the structure of these equations, we write it using
+bilinear and linear forms, as well as we take into account the symmetries of
+the forms. Then we get a particularly simple structure:
+
+.. math::
+    :nowrap:
+
+    $$\begin{array}{lclclclclcl}
+    +A(u_1, v_1) &&  && -X(p, v_1) && -B(B_1, v_1) &&  &=& l_1(v_1)\\
+      && +A(u_2, v_2) && -Y(p, v_2) &&  && -B(B_2, v_2) &=& l_2(v_2)\\
+    +X(q, u1) && +Y(q, u_2) &&  &&  &&  &=& 0\\
+    -B(u_1, C_1) &&  &&  && +A(B_1, C_1) &&  &=& l_4(C_1)\\
+     && -B(u_2, C_2) &&  &&  && +A(B_2, C_2) &=& l_5(C_2)
+    \end{array}$$
+
+where:
+
+.. math::
+
+    A(u, v) &= \int_\Omega {u v\over\tau} +
+        ({\bf u}^{n-1}\cdot\nabla)u v\,{\rm d}{\bf x}\\
+    B(u, v) &= \int_\Omega ({\bf B}^{n-1}\cdot\nabla)uv\,{\rm d}{\bf x}\\
+    X(u, v) &= \int_\Omega u {\partial v\over\partial x} \,{\rm d}{\bf x}\\
+    Y(u, v) &= \int_\Omega u {\partial v\over\partial y} \,{\rm d}{\bf x}\\
+    l_1(v) &= \int_\Omega {u_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_2(v) &= \int_\Omega {u_2^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
+    l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
+
+Schematically we can visualize the structure by:
+
++----+----+----+----+----+
+| A  |    | -X | -B |    |
++----+----+----+----+----+
+|    | A  | -Y |    | -B |
++----+----+----+----+----+
+| X  | Y  |    |    |    |
++----+----+----+----+----+
+| -B |    |    | A  |    |
++----+----+----+----+----+
+|    | -B |    |    | A  |
++----+----+----+----+----+
+
 Now we write it in the block form:
 
 .. math::
@@ -285,18 +328,6 @@ so we get the following nonzero forms:
         0 &+& a_{55}(B_2, C_2) &=& l_5(C_2)
     \end{array}$$
 
-and by exploiting the symmetry, we get:
-
-.. math::
-    :nowrap:
-
-    $$\begin{array}{lclclclclcl}
-    +A(u_1, v_1) &&  && -X(p, v_1) && -B(B_1, v_1) &&  &=& l_1(v_1)\\
-      && +A(u_2, v_2) && -Y(p, v_2) &&  && -B(B_2, v_2) &=& l_2(v_2)\\
-    +X(q, u1) && +Y(q, u_2) &&  &&  &&  &=& 0\\
-    -B(u_1, C_1) &&  &&  && +A(B_1, C_1) &&  &=& l_4(C_1)\\
-     && -B(u_2, C_2) &&  &&  && +A(B_2, C_2) &=& l_5(C_2)
-    \end{array}$$
 
 .. math::
 
@@ -314,18 +345,3 @@ and by exploiting the symmetry, we get:
     l_4(v) &= \int_\Omega {B_1^{n-1} v\over\tau} \,{\rm d}{\bf x}\\
     l_5(v) &= \int_\Omega {B_2^{n-1} v\over\tau} \,{\rm d}{\bf x}
 
-Schematically, the weak formulation equations structure can be visualized by:
-
-+----+----+---+---+---+
-| X  |    | A | O |   |
-+----+----+---+---+---+
-|    | X  | B |   | O |
-+----+----+---+---+---+
-| -A | -B |   |   |   |
-+----+----+---+---+---+
-| O  |    |   | X |   |
-+----+----+---+---+---+
-|    | O  |   |   | X |
-+----+----+---+---+---+
-
-Where ``O``, ``X``, ``A`` and ``B`` are the only 4 distinct forms.
