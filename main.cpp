@@ -66,35 +66,19 @@ scalar By_init(double x, double y, scalar& dx, scalar& dy) {
 
 // definition of boundary conditions
 int xvel_bc_type(int marker) {
-  if (marker == marker_right) return BC_NONE;
-  else return BC_ESSENTIAL;
+  return BC_NONE;
 }
 
 int yvel_bc_type(int marker) {
-  if (marker == marker_right) return BC_NONE;
-  else return BC_ESSENTIAL;
+  return BC_NONE;
 }
 
 int B_bc_type(int marker) {
   return BC_NONE;
 }
 
-int press_bc_type(int marker)
-  { return BC_NONE; }
-
-scalar xvel_bc_value(int marker, double x, double y) {
-  if (marker == marker_left) {
-    // time-dependent inlet velocity
-    //double val_y = VEL_INLET; //constant profile
-    double val_y = VEL_INLET * (H*H/4.-y*y) / (H/2.)/(H/2.);
-    /*insert_double_array("x", &x, 1);
-    insert_double_array("y", &y, 1);
-    insert_double_array("val_y", &val_y, 1);
-    cmd("print x, y, val_y");*/
-    if (TIME <= STARTUP_TIME) return val_y * TIME/STARTUP_TIME;
-    else return val_y;
-  }
-  else return 0;
+int press_bc_type(int marker) {
+    return BC_NONE;
 }
 
 // velocities from the previous time step
@@ -185,7 +169,6 @@ int main(int argc, char* argv[])
 
   // initialize boundary conditions
   xvel.set_bc_types(xvel_bc_type);
-  xvel.set_bc_values(xvel_bc_value);
   yvel.set_bc_types(yvel_bc_type);
   press.set_bc_types(press_bc_type);
   Bx.set_bc_types(B_bc_type);
@@ -206,14 +189,14 @@ int main(int argc, char* argv[])
   ndofs += Bx.assign_dofs(ndofs);
   ndofs += By.assign_dofs(ndofs);
 
-  // initial BC: xprev and yprev are zero
-  //xprev.set_zero(&mesh);
-  //yprev.set_zero(&mesh);
+  // initial BC
   xprev.set_exact(&mesh, Bx_init);
   yprev.set_exact(&mesh, By_init);
 
-  Bxprev.set_exact(&mesh, Bx_init);
-  Byprev.set_exact(&mesh, By_init);
+  //Bxprev.set_exact(&mesh, Bx_init);
+  //Byprev.set_exact(&mesh, By_init);
+  Bxprev.set_zero(&mesh);
+  Byprev.set_zero(&mesh);
 
   // set up weak formulation
   WeakForm wf(5);
