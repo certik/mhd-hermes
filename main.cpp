@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
   VectorView vview("velocity [m/s]", 0, 0, 1500, 470);
   VectorView Bview("B", 0, 0, 1500, 470);
   ScalarView pview("pressure [Pa]", 0, 530, 1500, 470);
-  vview.set_min_max_range(0, 1.6);
+  //vview.set_min_max_range(0, 1.6);
   pview.show_mesh(false);
   // fixing scale width (for nicer videos). Note: creation of videos is
   // discussed in a separate example
