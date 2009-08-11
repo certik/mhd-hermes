@@ -30,11 +30,11 @@
 // The following parameters can be played with:
 
 //const double RE = 1000.0;            // Reynolds number
-const double VEL_INLET = 0.1;        // inlet velocity (reached after STARTUP_TIME)
+const double VEL_INLET = 2;        // inlet velocity (reached after STARTUP_TIME)
 const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increases gradually
                                      // from 0 to VEL_INLET, then it stays constant
-const double TAU = 0.5;              // time step
-const double FINAL_TIME = 3000.0;    // length of time interval
+const double TAU = 0.05;              // time step
+const double FINAL_TIME = 2.0;    // length of time interval
 const int P_INIT_VEL = 2;            // polynomial degree for velocity components
 const int P_INIT_B = 2;            // polynomial degree for velocity components
 const int P_INIT_PRESSURE = 1;       // polynomial degree for pressure
@@ -96,6 +96,7 @@ scalar By_init(double x, double y, scalar& dx, scalar& dy) {
 
 // definition of boundary conditions
 int xvel_bc_type(int marker) {
+    return BC_NONE;
     if (marker == marker_right)
         return BC_NONE;
     else
@@ -217,7 +218,7 @@ int main(int argc, char* argv[])
 
   // initialize boundary conditions
   xvel.set_bc_types(xvel_bc_type);
-  xvel.set_bc_values(xvel_bc_value);
+  //xvel.set_bc_values(xvel_bc_value);
   yvel.set_bc_types(yvel_bc_type);
   press.set_bc_types(press_bc_type);
   Bx.set_bc_types(B_bc_type);
