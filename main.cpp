@@ -52,6 +52,14 @@ int marker_obstacle = 5;
 // global time variable
 double TIME = 0;
 
+scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
+  return 1;
+}
+
+scalar By_init(double x, double y, scalar& dx, scalar& dy) {
+  return 1;
+}
+
 // definition of boundary conditions
 int xvel_bc_type(int marker) {
   if (marker == marker_right) return BC_NONE;
@@ -172,8 +180,8 @@ int main(int argc, char* argv[])
   xprev.set_zero(&mesh);
   yprev.set_zero(&mesh);
 
-  Bx.set_zero(&mesh);
-  By.set_zero(&mesh);
+  Bx.set_exact(&mesh, Bx_init);
+  By.set_exact(&mesh, By_init);
 
   // set up weak formulation
   WeakForm wf(3);
