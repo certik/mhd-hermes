@@ -54,33 +54,44 @@ int marker_obstacle = 5;
 double TIME = 0;
 
 scalar x_init(double x, double y, scalar& dx, scalar& dy) {
-    dx = -x*y*exp(0.5*(1-x*x-y*y));
-    dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
-    return y*exp(0.5*(1-x*x-y*y))+0.0;
+    dx = 0;
+    dy = 0;
+    return 2;
 }
 
 scalar y_init(double x, double y, scalar& dx, scalar& dy) {
-    dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
-    dy = x*y*exp(0.5*(1-x*x-y*y));
-    return -x*exp(0.5*(1-x*x-y*y))+0.0;
+    dx = 0;
+    dy = 0;
+    return 0;
 }
 
-double C = 0.8;
+double A0 = 1e-3;
+double R = 0.3;
 
 scalar Bx_init(double x, double y, scalar& dx, scalar& dy) {
-    dx = -x*y*exp(0.5*(1-x*x-y*y));
-    dy = -y*y*exp(0.5*(1-x*x-y*y))+exp(0.5*(1-x*x-y*y));
-    dx *= C;
-    dy *= C;
-    return C*y*exp(0.5*(1-x*x-y*y));
+    double r = sqrt(x*x + y*y);
+    if (r < R) {
+        dx = A0*x*y/(r*r*r);
+        dy = A0*y*y/(r*r*r) - A0/r;
+        return -A0 * y / r;
+    } else {
+        dx = 0;
+        dy = 0;
+        return 0;
+    }
 }
 
 scalar By_init(double x, double y, scalar& dx, scalar& dy) {
-    dx = x*x*exp(0.5*(1-x*x-y*y))-exp(0.5*(1-x*x-y*y));
-    dy = x*y*exp(0.5*(1-x*x-y*y));
-    dx *= C;
-    dy *= C;
-    return -C*x*exp(0.5*(1-x*x-y*y));
+    double r = sqrt(x*x + y*y);
+    if (r < R) {
+        dx = -A0*x*x/(r*r*r)+A0/r;
+        dy = -A0*x*y/(r*r*r);
+        return A0 * x / r;
+    } else {
+        dx = 0;
+        dy = 0;
+        return 0;
+    }
 }
 
 // definition of boundary conditions
