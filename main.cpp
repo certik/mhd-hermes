@@ -107,7 +107,10 @@ scalar xvel_bc_value(int marker, double x, double y) {
 
 
 int B_bc_type(int marker) {
-  return BC_ESSENTIAL;
+    if (marker == marker_right)
+        return BC_NONE;
+    else
+        return BC_ESSENTIAL;
 }
 
 int press_bc_type(int marker) {
