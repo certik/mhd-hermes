@@ -29,7 +29,7 @@
 //
 // The following parameters can be played with:
 
-const double RE = 1000.0;            // Reynolds number
+//const double RE = 1000.0;            // Reynolds number
 const double VEL_INLET = 1.0;        // inlet velocity (reached after STARTUP_TIME)
 const double STARTUP_TIME = 1.0;     // during this time, inlet velocity increases gradually
                                      // from 0 to VEL_INLET, then it stays constant
@@ -85,8 +85,7 @@ scalar xvel_bc_value(int marker, double x, double y) {
 Solution xprev, yprev;
 
 scalar bilinear_form_sym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
-  { return int_grad_u_grad_v(fu, fv, ru, rv) / RE +
-           int_u_v(fu, fv, ru, rv) / TAU; }
+  { return int_u_v(fu, fv, ru, rv) / TAU; }
 
 scalar bilinear_form_unsym_0_0_1_1(RealFunction* fu, RealFunction* fv, RefMap* ru, RefMap* rv)
   { return int_w_nabla_u_v(&xprev, &yprev, fu, fv, ru, rv); }
