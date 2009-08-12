@@ -334,10 +334,10 @@ int main(int argc, char* argv[])
     psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), _X);
     Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), _X);
     Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), _X);
+    /*
     insert_object("xsln", Solution_from_C(&xsln));
     insert_object("ysln", Solution_from_C(&ysln));
     insert_object("psln", Solution_from_C(&psln));
-    /*
     cmd("l = Linearizer()");
     cmd("l.process_solution(psln)");
     cmd("vert = l.get_vertices()");
