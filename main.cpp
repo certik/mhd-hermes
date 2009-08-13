@@ -319,6 +319,7 @@ void adapt_mesh(bool& done, Mesh* mesh, Mesh* cmesh, Space* space, int* esort0, 
     }
   }
 
+  /*
   if (done)  // coarsening
   {
     for (i = 0; i < cmesh->get_num_active_elements(); i++)
@@ -338,7 +339,7 @@ void adapt_mesh(bool& done, Mesh* mesh, Mesh* cmesh, Space* space, int* esort0, 
         }
       }
     }
-  }
+  }*/
 
 }
 
@@ -476,6 +477,7 @@ int main(int argc, char* argv[])
 
     info("\n---- Time step %d, time = %g -----------------------------------", i, TIME);
 
+    mesh.load("square.mesh");
     Solution xsln, ysln, psln, Bxsln, Bysln;
     Solution xref, yref, pref, Bxref, Byref;
     Solution xcrs, ycrs, pcrs, Bxcrs, Bycrs;
@@ -530,15 +532,6 @@ int main(int argc, char* argv[])
         space_tol = 1;
     if (sln_err < space_tol) done = true;
     info("Error %g%%", sln_err);
-
-    if (done){
-        RefSystem crs(&sys, 0, -1);
-        crs.assemble();
-        solve_system(crs, xcrs, ycrs, pcrs, Bxcrs, Bycrs);
-
-        DXDYFilter crs_vel(mag, &Bxcrs, &Bycrs);
-        double crs_err = 100 * calc_error(&crs_vel, &sln_vel, crs_esort, crs_errors);
-    }
 
     adapt_mesh(done, &mesh, xcrs.get_mesh(), &xvel, crs_esort, crs_errors,
             sln_esort,  sln_errors);
