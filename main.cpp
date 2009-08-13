@@ -311,6 +311,7 @@ int main(int argc, char* argv[])
 
     // assemble and solve
     Solution xsln, ysln, psln, Bxsln, Bysln;
+    Solution xref, yref, pref, Bxref, Byref;
     psln.set_zero(&mesh);
     sys.assemble();
     //sys.solve(3, &xsln, &ysln, &psln);
@@ -361,6 +362,24 @@ int main(int argc, char* argv[])
     sprintf(title, "Pressure, time %g", TIME);
     pview.set_title(title);
     pview.show(&psln);
+
+    RefSystem ref(&sys, 0); // just spacial refinement
+    ref.assemble();
+    ref.get_matrix(Ap, Ai, Ax, n);
+    nnz = Ap[n];
+    ref.get_rhs(rhs, n);
+    insert_int_array("Ap", Ap, n+1);
+    insert_int_array("Ai", Ai, nnz);
+    insert_double_array("Ax", Ax, nnz);
+    insert_double_array("rhs", rhs, n);
+    cmd("A = csc_matrix((Ax, Ai, Ap))");
+    cmd("x = spsolve(A, rhs)");
+    array_double_numpy2c_inplace(get_symbol("x"), &_X, &n);
+    xref.set_fe_solution(ref.get_space(0), ref.get_pss(0), _X);
+    yref.set_fe_solution(ref.get_space(1), ref.get_pss(1), _X);
+    pref.set_fe_solution(ref.get_space(2), ref.get_pss(2), _X);
+    Bxref.set_fe_solution(ref.get_space(3), ref.get_pss(3), _X);
+    Byref.set_fe_solution(ref.get_space(4), ref.get_pss(4), _X);
 
     xprev = xsln;
     yprev = ysln;
