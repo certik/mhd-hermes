@@ -509,8 +509,8 @@ int main(int argc, char* argv[])
     solve_system(ref, xref, yref, pref, Bxref, Byref);
 
     // calculate errors
-    DXDYFilter sln_vel(mag, &xsln, &ysln);
-    DXDYFilter ref_vel(mag, &xref, &yref);
+    DXDYFilter sln_vel(mag, &Bxsln, &Bysln);
+    DXDYFilter ref_vel(mag, &Bxref, &Byref);
 
     double *crs_errors, *sln_errors;
     int    *crs_esort,  *sln_esort;
@@ -525,7 +525,7 @@ int main(int argc, char* argv[])
         crs.assemble();
         solve_system(crs, xcrs, ycrs, pcrs, Bxcrs, Bycrs);
 
-        DXDYFilter crs_vel(mag, &xcrs, &ycrs);
+        DXDYFilter crs_vel(mag, &Bxcrs, &Bycrs);
         double crs_err = 100 * calc_error(&crs_vel, &sln_vel, crs_esort, crs_errors);
     }
 
