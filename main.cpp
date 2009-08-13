@@ -359,6 +359,8 @@ int main(int argc, char* argv[])
 
   // a-priori mesh refinements
   mesh.refine_all_elements();
+  mesh.refine_all_elements();
+  mesh.refine_all_elements();
 /*
   mesh.refine_all_elements();
   mesh.refine_all_elements();
@@ -516,7 +518,7 @@ int main(int argc, char* argv[])
     int    *crs_esort,  *sln_esort;
 
     double sln_err = 100 * calc_error(&sln_vel, &ref_vel, sln_esort, sln_errors);
-    double space_tol = 0.1;
+    double space_tol = 0.2;
     if (sln_err < space_tol || i == 1) done = true;
     info("Error %g%%", sln_err);
 
