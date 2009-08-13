@@ -484,6 +484,13 @@ int main(int argc, char* argv[])
     int at = 0;
     do {
         info("\n*** Adaptive iteration %d ***\n", at++);
+        if (i == 1) {
+          xprev.set_exact(&mesh, x_init);
+          yprev.set_exact(&mesh, y_init);
+
+          Bxprev.set_exact(&mesh, Bx_init);
+          Byprev.set_exact(&mesh, By_init);
+        }
     // this is needed to update the time-dependent boundary conditions
     ndofs = 0;
     ndofs += xvel.assign_dofs(ndofs);
@@ -518,8 +525,8 @@ int main(int argc, char* argv[])
     int    *crs_esort,  *sln_esort;
 
     double sln_err = 100 * calc_error(&sln_vel, &ref_vel, sln_esort, sln_errors);
-    double space_tol = 0.2;
-    if (sln_err < space_tol || i == 1) done = true;
+    double space_tol = 2;
+    if (sln_err < space_tol) done = true;
     info("Error %g%%", sln_err);
 
     if (done){
