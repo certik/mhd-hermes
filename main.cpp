@@ -171,6 +171,34 @@ scalar l5(RealFunction* fv, RefMap* rv)
     return int_u_v(&Byprev, fv, Byprev.get_refmap(), rv) / TAU;
 }
 
+/* sys.solve(), but implemented in Python */
+void solve_system(LinSystem &sys,
+        Solution &xsln,
+        Solution &ysln,
+        Solution &psln,
+        Solution &Bxsln,
+        Solution &Bysln)
+{
+    int *Ap, *Ai, n, nnz;
+    scalar *Ax;
+    sys.get_matrix(Ap, Ai, Ax, n);
+    nnz = Ap[n];
+    scalar *rhs;
+    sys.get_rhs(rhs, n);
+    insert_int_array("Ap", Ap, n+1);
+    insert_int_array("Ai", Ai, nnz);
+    insert_double_array("Ax", Ax, nnz);
+    insert_double_array("rhs", rhs, n);
+    cmd("A = csc_matrix((Ax, Ai, Ap))");
+    cmd("x = spsolve(A, rhs)");
+    double *_X;
+    array_double_numpy2c_inplace(get_symbol("x"), &_X, &n);
+    xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), _X);
+    ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), _X);
+    psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), _X);
+    Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), _X);
+    Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), _X);
+}
 
 int main(int argc, char* argv[])
 {
@@ -314,27 +342,9 @@ int main(int argc, char* argv[])
     Solution xref, yref, pref, Bxref, Byref;
     psln.set_zero(&mesh);
     sys.assemble();
+    solve_system(sys, xsln, ysln, psln, Bxsln, Bysln);
     //sys.solve(3, &xsln, &ysln, &psln);
 
-    int *Ap, *Ai, n, nnz;
-    scalar *Ax;
-    sys.get_matrix(Ap, Ai, Ax, n);
-    nnz = Ap[n];
-    scalar *rhs;
-    sys.get_rhs(rhs, n);
-    insert_int_array("Ap", Ap, n+1);
-    insert_int_array("Ai", Ai, nnz);
-    insert_double_array("Ax", Ax, nnz);
-    insert_double_array("rhs", rhs, n);
-    cmd("A = csc_matrix((Ax, Ai, Ap))");
-    cmd("x = spsolve(A, rhs)");
-    double *_X;
-    array_double_numpy2c_inplace(get_symbol("x"), &_X, &n);
-    xsln.set_fe_solution(sys.get_space(0), sys.get_pss(0), _X);
-    ysln.set_fe_solution(sys.get_space(1), sys.get_pss(1), _X);
-    psln.set_fe_solution(sys.get_space(2), sys.get_pss(2), _X);
-    Bxsln.set_fe_solution(sys.get_space(3), sys.get_pss(3), _X);
-    Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), _X);
     /*
     insert_object("xsln", Solution_from_C(&xsln));
     insert_object("ysln", Solution_from_C(&ysln));
@@ -365,21 +375,7 @@ int main(int argc, char* argv[])
 
     RefSystem ref(&sys, 0); // just spacial refinement
     ref.assemble();
-    ref.get_matrix(Ap, Ai, Ax, n);
-    nnz = Ap[n];
-    ref.get_rhs(rhs, n);
-    insert_int_array("Ap", Ap, n+1);
-    insert_int_array("Ai", Ai, nnz);
-    insert_double_array("Ax", Ax, nnz);
-    insert_double_array("rhs", rhs, n);
-    cmd("A = csc_matrix((Ax, Ai, Ap))");
-    cmd("x = spsolve(A, rhs)");
-    array_double_numpy2c_inplace(get_symbol("x"), &_X, &n);
-    xref.set_fe_solution(ref.get_space(0), ref.get_pss(0), _X);
-    yref.set_fe_solution(ref.get_space(1), ref.get_pss(1), _X);
-    pref.set_fe_solution(ref.get_space(2), ref.get_pss(2), _X);
-    Bxref.set_fe_solution(ref.get_space(3), ref.get_pss(3), _X);
-    Byref.set_fe_solution(ref.get_space(4), ref.get_pss(4), _X);
+    solve_system(ref, xref, yref, pref, Bxref, Byref);
 
     xprev = xsln;
     yprev = ysln;
