@@ -11,7 +11,7 @@ find_package(PythonLibs REQUIRED)
 link_directories(${HERMES2D_LIB})
 add_executable(${PROJECT_NAME} main.cpp)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-O2 -Wno-write-strings")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-g -Wno-write-strings")
 
 include_directories(${PYTHON_INCLUDE_PATH})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

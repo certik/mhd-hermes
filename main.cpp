@@ -478,6 +478,11 @@ int main(int argc, char* argv[])
     info("\n---- Time step %d, time = %g -----------------------------------", i, TIME);
 
     mesh.load("square.mesh");
+    xvel.set_uniform_order(P_INIT_VEL);
+    yvel.set_uniform_order(P_INIT_VEL);
+    press.set_uniform_order(P_INIT_PRESSURE);
+    Bx.set_uniform_order(P_INIT_B);
+    By.set_uniform_order(P_INIT_B);
     Solution xsln, ysln, psln, Bxsln, Bysln;
     Solution xref, yref, pref, Bxref, Byref;
     Solution xcrs, ycrs, pcrs, Bxcrs, Bycrs;
