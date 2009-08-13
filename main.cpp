@@ -200,6 +200,102 @@ void solve_system(LinSystem &sys,
     Bysln.set_fe_solution(sys.get_space(4), sys.get_pss(4), _X);
 }
 
+    // use this to visualize using Python:
+    /*
+    insert_object("xsln", Solution_from_C(&xsln));
+    insert_object("ysln", Solution_from_C(&ysln));
+    insert_object("psln", Solution_from_C(&psln));
+    cmd("l = Linearizer()");
+    cmd("l.process_solution(psln)");
+    cmd("vert = l.get_vertices()");
+    cmd("triangles = l.get_triangles()");
+    cmd("utils.plot(vert, triangles)");
+
+    cmd("v = Vectorizer()");
+    cmd("v.process_solution(xsln, ysln)");
+    cmd("v_vert = v.get_vertices()");
+    cmd("v_triangles = v.get_triangles()");
+    cmd("utils.plot_vec(v_vert, v_triangles)");
+    //cmd("import IPython; IPython.ipapi.set_trace()");
+    */
+
+void mag(int n, scalar* a, scalar* dadx, scalar* dady,
+         scalar* b, scalar* dbdx, scalar* dbdy,
+         scalar* out, scalar* outdx, scalar* outdy)
+{
+  for (int i = 0; i < n; i++) {
+    out[i] = sqrt(sqr(a[i]) + sqr(b[i]));
+    outdx[i] = (0.5 / out[i]) * (2.0 * a[i] * dadx[i] + 2.0 * b[i] * dbdx[i]);
+    outdx[i] = (0.5 / out[i]) * (2.0 * a[i] * dady[i] + 2.0 * b[i] * dbdy[i]);
+  }
+}
+
+static double* cmp_err;
+static int compare(const void* p1, const void* p2)
+{
+  const int (*e1) = ((const int*) p1);
+  const int (*e2) = ((const int*) p2);
+  return cmp_err[(*e1)] < cmp_err[(*e2)] ? 1 : -1;
+}
+
+// calculates element errors between 2 solutions (coarse and normal, normal and fine)
+double calc_error(MeshFunction* sln, MeshFunction* rsln, int*& esort, double*& errors)
+{
+  int i, j;
+
+  Mesh* cmesh = sln->get_mesh();
+  int max = cmesh->get_max_element_id();
+  errors = new double[max];
+  memset(errors, 0, sizeof(double) * max);
+  int nact = cmesh->get_num_active_elements();
+  esort = new int[nact];
+
+  double total_error = 0.0, total_norm = 0.0;
+
+  Quad2D* quad = &g_quad_2d_std;
+  sln->set_quad_2d(quad);
+  rsln->set_quad_2d(quad);
+
+  Mesh* meshes[2] = { sln->get_mesh(), rsln->get_mesh() };
+  Transformable* tr[2] = { sln, rsln };
+  Traverse trav;
+  trav.begin(2, meshes, tr);
+
+  Element** ee;
+  while ((ee = trav.get_next_state(NULL, NULL)) != NULL)
+  {
+    update_limit_table(ee[0]->get_mode());
+
+    RefMap* crm = sln->get_refmap();
+    RefMap* frm = rsln->get_refmap();
+
+    double err  = int_l2_error(sln, rsln, crm, frm);
+    total_norm += int_l2_norm (rsln, frm);
+
+    errors[ee[0]->id] += err;
+    total_error += err;
+  }
+  trav.finish();
+
+  Element* e;
+  for_all_inactive_elements(e, cmesh)
+    errors[e->id] = -1.0;
+
+  int k = 0;
+  for_all_active_elements(e, cmesh)
+  {
+    errors[e->id] /= total_norm;
+    esort[k++] = e->id;
+  }
+
+  cmp_err = errors;
+  qsort(esort, nact, sizeof(int), compare);
+
+  return sqrt(total_error / total_norm);
+}
+
+
+
 int main(int argc, char* argv[])
 {
   // Initialize Python
@@ -343,26 +439,6 @@ int main(int argc, char* argv[])
     psln.set_zero(&mesh);
     sys.assemble();
     solve_system(sys, xsln, ysln, psln, Bxsln, Bysln);
-    //sys.solve(3, &xsln, &ysln, &psln);
-
-    /*
-    insert_object("xsln", Solution_from_C(&xsln));
-    insert_object("ysln", Solution_from_C(&ysln));
-    insert_object("psln", Solution_from_C(&psln));
-    cmd("l = Linearizer()");
-    cmd("l.process_solution(psln)");
-    cmd("vert = l.get_vertices()");
-    cmd("triangles = l.get_triangles()");
-    cmd("utils.plot(vert, triangles)");
-
-    cmd("v = Vectorizer()");
-    cmd("v.process_solution(xsln, ysln)");
-    cmd("v_vert = v.get_vertices()");
-    cmd("v_triangles = v.get_triangles()");
-    cmd("utils.plot_vec(v_vert, v_triangles)");
-    */
-
-    //cmd("import IPython; IPython.ipapi.set_trace()");
 
     // visualization
     sprintf(title, "Velocity, time %g", TIME);
@@ -376,6 +452,17 @@ int main(int argc, char* argv[])
     RefSystem ref(&sys, 0); // just spacial refinement
     ref.assemble();
     solve_system(ref, xref, yref, pref, Bxref, Byref);
+
+    // calculate errors
+    DXDYFilter sln_vel(mag, &xsln, &ysln);
+    DXDYFilter ref_vel(mag, &xref, &yref);
+
+    double *crs_errors, *sln_errors;
+    int    *crs_esort,  *sln_esort;
+
+    double sln_err = 100 * calc_error(&sln_vel, &ref_vel, sln_esort, sln_errors);
+    //if (sln_err < 0.1 || i == 1) done = true;
+    info("Error %g%%", sln_err);
 
     xprev = xsln;
     yprev = ysln;
