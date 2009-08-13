@@ -525,7 +525,9 @@ int main(int argc, char* argv[])
     int    *crs_esort,  *sln_esort;
 
     double sln_err = 100 * calc_error(&sln_vel, &ref_vel, sln_esort, sln_errors);
-    double space_tol = 2;
+    double space_tol = 0.5;
+    if (i == 1)
+        space_tol = 1;
     if (sln_err < space_tol) done = true;
     info("Error %g%%", sln_err);
 
