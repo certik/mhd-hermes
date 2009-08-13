@@ -518,11 +518,14 @@ int main(int argc, char* argv[])
     if (sln_err < space_tol || i == 1) done = true;
     info("Error %g%%", sln_err);
 
+    adapt_mesh(done, &mesh, xcrs.get_mesh(), &xvel, crs_esort, crs_errors,
+            sln_esort,  sln_errors);
     xvel.set_uniform_order(P_INIT_VEL);
     yvel.set_uniform_order(P_INIT_VEL);
     press.set_uniform_order(P_INIT_PRESSURE);
     Bx.set_uniform_order(P_INIT_B);
     By.set_uniform_order(P_INIT_B);
+
     } while (!done);
 
     xprev = xsln;
