@@ -476,6 +476,8 @@ int main(int argc, char* argv[])
 
     Solution xsln, ysln, psln, Bxsln, Bysln;
     Solution xref, yref, pref, Bxref, Byref;
+    Solution xcrs, ycrs, pcrs, Bxcrs, Bycrs;
+
     bool done = false;
     int at = 0;
     do {
@@ -517,6 +519,15 @@ int main(int argc, char* argv[])
     double space_tol = 0.1;
     if (sln_err < space_tol || i == 1) done = true;
     info("Error %g%%", sln_err);
+
+    if (done){
+        RefSystem crs(&sys, 0, -1);
+        crs.assemble();
+        solve_system(crs, xcrs, ycrs, pcrs, Bxcrs, Bycrs);
+
+        DXDYFilter crs_vel(mag, &xcrs, &ycrs);
+        double crs_err = 100 * calc_error(&crs_vel, &sln_vel, crs_esort, crs_errors);
+    }
 
     adapt_mesh(done, &mesh, xcrs.get_mesh(), &xvel, crs_esort, crs_errors,
             sln_esort,  sln_errors);
