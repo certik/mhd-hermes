@@ -294,6 +294,54 @@ double calc_error(MeshFunction* sln, MeshFunction* rsln, int*& esort, double*& e
   return sqrt(total_error / total_norm);
 }
 
+double thr=0.3;
+
+// refines or coarses the mesh using element errors calculated in calc_error()
+void adapt_mesh(bool& done, Mesh* mesh, Mesh* cmesh, Space* space, int* esort0, double* errors0, int* esort, double* errors)
+{
+  int i, j;
+  double err0 = esort[0];
+  if (!done) // refinements
+  {
+    for (i = 0; i < mesh->get_num_active_elements(); i++)
+    {
+      int id = esort[i];
+      double err = errors[id];
+
+      if (err < thr * errors[esort[0]]) { break; }
+      err0 = err;
+
+      Element* e;
+      e = mesh->get_element(id);
+      mesh->refine_element(id);
+      for (j = 0; j < 4; j++)
+        space->set_element_order(e->sons[j]->id, space->get_element_order(id));
+    }
+  }
+
+  if (done)  // coarsening
+  {
+    for (i = 0; i < cmesh->get_num_active_elements(); i++)
+    {
+      int id = esort0[i];
+      double err = errors0[id];
+
+      if (err < thr * errors[esort[0]])
+      {
+        Element* e;
+        e = mesh->get_element(id);
+        if (!(e->active))
+        {
+          int o = space->get_element_order(e->sons[0]->id);
+          mesh->unrefine_element(id);
+          space->set_element_order(id, o);
+        }
+      }
+    }
+  }
+
+}
+
 
 
 int main(int argc, char* argv[])
