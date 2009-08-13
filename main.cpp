@@ -421,12 +421,17 @@ int main(int argc, char* argv[])
   // main loop
   char title[100];
   int num_time_steps = FINAL_TIME / TAU;
-  for (int i = 1; i <= num_time_steps; i++)
-  {
+  for (int i = 1; i <= num_time_steps; i++) {
     TIME += TAU;
 
     info("\n---- Time step %d, time = %g -----------------------------------", i, TIME);
 
+    Solution xsln, ysln, psln, Bxsln, Bysln;
+    Solution xref, yref, pref, Bxref, Byref;
+    bool done = false;
+    int at = 0;
+    do {
+        info("\n*** Adaptive iteration %d ***\n", at++);
     // this is needed to update the time-dependent boundary conditions
     ndofs = 0;
     ndofs += xvel.assign_dofs(ndofs);
@@ -436,8 +441,6 @@ int main(int argc, char* argv[])
     ndofs += By.assign_dofs(ndofs);
 
     // assemble and solve
-    Solution xsln, ysln, psln, Bxsln, Bysln;
-    Solution xref, yref, pref, Bxref, Byref;
     psln.set_zero(&mesh);
     sys.assemble();
     solve_system(sys, xsln, ysln, psln, Bxsln, Bysln);
@@ -463,8 +466,16 @@ int main(int argc, char* argv[])
     int    *crs_esort,  *sln_esort;
 
     double sln_err = 100 * calc_error(&sln_vel, &ref_vel, sln_esort, sln_errors);
-    //if (sln_err < 0.1 || i == 1) done = true;
+    double space_tol = 0.1;
+    if (sln_err < space_tol || i == 1) done = true;
     info("Error %g%%", sln_err);
+
+    xvel.set_uniform_order(P_INIT_VEL);
+    yvel.set_uniform_order(P_INIT_VEL);
+    press.set_uniform_order(P_INIT_PRESSURE);
+    Bx.set_uniform_order(P_INIT_B);
+    By.set_uniform_order(P_INIT_B);
+    } while (!done);
 
     xprev = xsln;
     yprev = ysln;
